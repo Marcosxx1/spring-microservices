@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -32,14 +33,7 @@ public class AccountsServiceImpl implements IAccountsService {
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
 
-    /**
-     * Creates a new customer account based on the information provided in the {@code customerDto} object.
-     * The method maps the {@code CustomerDto} object to a {@code Customer} entity using the
-     * {@link CustomerMapper#mapToCustomer(CustomerDto, Customer)} method and saves the customer
-     * information to the database via the {@code customerRepository}.
-     *
-     * @param customerDto The {@code CustomerDto} object containing the information for creating the account.
-     */
+
     @Override
     public void createAccount(CustomerDto customerDto) {
         Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
@@ -98,4 +92,67 @@ public class AccountsServiceImpl implements IAccountsService {
 
         return customerDto;
     }
+
+    @Override
+    public boolean updateAccount(CustomerDto customerDto) {
+
+        Customer customer = customerRepository.findByMobileNumber(customerDto.getMobileNumber()).orElseThrow(
+                () -> new ResourceNotFoundException(
+                        "Customer",
+                        "mobileNumber",
+                        customerDto.getMobileNumber().toString()
+                )
+        );
+
+        Accounts account = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException(
+                        "Account",
+                        "customerId",
+                        customer.getCustomerId().toString()
+                )
+        );
+
+
+        customer.setName(customerDto.getName());
+        customer.setEmail(customerDto.getEmail());
+        customer.setMobileNumber(customerDto.getMobileNumber());
+
+        account.setAccountType(customerDto.getAccountsDto().getAccountType());
+        account.setBranchAddress(customerDto.getAccountsDto().getBranchAddress());
+
+        customerRepository.save(customer);
+        accountsRepository.save(account);
+
+        return true;
+    }
+
+    @Override
+    public boolean deleteAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException(
+                        "Customer",
+                        "mobileNumber",
+                        mobileNumber.toString()
+                )
+        );
+
+        Accounts account = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException(
+                        "Account",
+                        "customerId",
+                        customer.getCustomerId().toString()
+                )
+        );
+
+        customerRepository.delete(customer);
+        accountsRepository.delete(account);
+
+        return true;
+    }
+
+    @Override
+    public List<Accounts> fetchAll() {
+        return accountsRepository.findAll();
+    }
+
 }
