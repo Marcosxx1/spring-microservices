@@ -5,6 +5,11 @@ import com.eazybytes.accounts.dto.CustomerDto;
 import com.eazybytes.accounts.dto.ResponseDto;
 import com.eazybytes.accounts.entity.Accounts;
 import com.eazybytes.accounts.service.IAccountsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -24,6 +29,12 @@ public class AccountsController {
 
     private IAccountsService iAccountsService;
 
+    @Operation(summary = "Create an account")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Account created successfully",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ResponseDto.class)) })
+    })
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
 
@@ -34,6 +45,17 @@ public class AccountsController {
                 .body(new ResponseDto(AccountConstants.STATUS_201, AccountConstants.MESSAGE_201));
     }
 
+    // swagger specs
+    @Operation(summary = "Fetch account details")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found account details",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CustomerDto.class)) }),
+            @ApiResponse(responseCode = "400", description = "Customer not found with the given input data mobileNumber",
+                    content = @Content)/*,
+            @ApiResponse(responseCode = "404", description = "Book not found",
+                    content = @Content) */})
+    // end of swagger specs
     @GetMapping("/fetch")
     public ResponseEntity<CustomerDto> fetchAccountDetails(
             @Pattern(regexp = "^$|[0-9]{11}", message = "mobileNumber must be 11 digits")
