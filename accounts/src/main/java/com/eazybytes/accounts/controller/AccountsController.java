@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,16 +26,19 @@ import java.util.List;
 @RequestMapping(value = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 @Validated
+@Tag(
+        name = "CRUD for accounts",
+        description = "Create, Update, fetch and Delete account details"
+)
 public class AccountsController {
 
     private IAccountsService iAccountsService;
 
-    @Operation(summary = "Create an account")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Account created successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ResponseDto.class)) })
-    })
+
+    @Operation(
+            summary = "Creat account",
+            description = "POST method to create a new Account"
+    )
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
 
@@ -45,17 +49,16 @@ public class AccountsController {
                 .body(new ResponseDto(AccountConstants.STATUS_201, AccountConstants.MESSAGE_201));
     }
 
-    // swagger specs
-    @Operation(summary = "Fetch account details")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found account details",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CustomerDto.class)) }),
-            @ApiResponse(responseCode = "400", description = "Customer not found with the given input data mobileNumber",
-                    content = @Content)/*,
-            @ApiResponse(responseCode = "404", description = "Book not found",
-                    content = @Content) */})
-    // end of swagger specs
+
+
+    @Operation(
+            summary = "Fetch account",
+            description = "GET method to fetch an Account"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP status code created"
+    )
     @GetMapping("/fetch")
     public ResponseEntity<CustomerDto> fetchAccountDetails(
             @Pattern(regexp = "^$|[0-9]{11}", message = "mobileNumber must be 11 digits")
@@ -64,6 +67,14 @@ public class AccountsController {
         return ResponseEntity.status(HttpStatus.OK).body(customerDto);
     }
 
+    @Operation(
+            summary = "Fetch all accounts",
+            description = "GET method to fetch all Accounts"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP status OK"
+    )
     @GetMapping("/fetch-all")
     public ResponseEntity<List<Accounts>> fetchAllAcounts() {
         List<Accounts> accounts = iAccountsService.fetchAll();
@@ -79,6 +90,21 @@ public class AccountsController {
         }
     }
 
+    @Operation(
+            summary = "Update an account",
+            description = "PUT method to update an Account"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "HTTP status OK"
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "HTTP Internal Server Error",
+            content = @Content(
+                    schema = @Schema( implementation = ErrorResponse.class)
+            )
+    )
     @PutMapping("/update")
     public ResponseEntity<ResponseDto> updateAccount(@Valid @RequestBody CustomerDto customerDto) {
         boolean updated = iAccountsService.updateAccount(customerDto);
@@ -93,6 +119,18 @@ public class AccountsController {
         }
     }
 
+    @Operation(
+            summary = "Delete an account",
+            description = "DELETE method to delete an Account"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "HTTP status OK"
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "HTTP Internal Server Error"
+    )
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDto> deleteAccount(
             @Pattern(regexp = "^$|[0-9]{11}", message = "mobileNumber must be 11 digits")

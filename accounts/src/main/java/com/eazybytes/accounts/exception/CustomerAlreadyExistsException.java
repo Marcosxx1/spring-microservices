@@ -1,6 +1,5 @@
 package com.eazybytes.accounts.exception;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
