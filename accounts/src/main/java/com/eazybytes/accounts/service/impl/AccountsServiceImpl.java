@@ -20,12 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-
-/**
- * Implementation of the {@code IAccountsService} interface for managing customer accounts.
- * This service is responsible for creating customer accounts based on the provided
- * {@code CustomerDto} object.
- */
 @Service
 @AllArgsConstructor
 public class AccountsServiceImpl implements IAccountsService {
@@ -63,10 +57,7 @@ public class AccountsServiceImpl implements IAccountsService {
 
     }
 
-    /**
-     * @param mobileNumber - Input Mobile Number
-     * @return Accounts Details based on a given mobileNumber
-     */
+
     @Override
     public CustomerDto fetchAccount(String mobileNumber) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
