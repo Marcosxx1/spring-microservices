@@ -1,17 +1,16 @@
 package com.eazybytes.accounts.service;
 
-import com.eazybytes.accounts.dto.CustomerDto;
+import com.eazybytes.accounts.dto.PostNewCustomerRequest;
 import com.eazybytes.accounts.entity.Accounts;
-
 import java.util.List;
 
 public interface IAccountsService {
 
-    void createAccount(CustomerDto customerDto);
+    void createAccount(PostNewCustomerRequest postNewCustomerRequest);
 
-    CustomerDto fetchAccount(String mobileNumber);
+    PostNewCustomerRequest fetchAccount(String mobileNumber);
 
-    boolean updateAccount(CustomerDto customerDto);
+    boolean updateAccount(PostNewCustomerRequest postNewCustomerRequest);
 
     boolean deleteAccount(String mobileNumber);
 

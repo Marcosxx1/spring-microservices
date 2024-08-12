@@ -7,12 +7,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Data// @Getter @Setter @ToString @EqualsAndHashCode @RequiredArgsConstructor
-@Schema(
-        name = "Customer",
-        description = "Schema that holds Cusomer and Account information"
-)
-public class CustomerDto {
+@Data // @Getter @Setter @ToString @EqualsAndHashCode @RequiredArgsConstructor
+@Schema(name = "Customer", description = "Schema that holds Cusomer and Account information")
+public class PostNewCustomerRequest {
 
     @Schema(description = "Customer's name", example = "Maria")
     @NotEmpty(message = "name cannot be empty")

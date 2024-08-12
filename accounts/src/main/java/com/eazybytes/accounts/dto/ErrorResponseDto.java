@@ -1,18 +1,14 @@
 package com.eazybytes.accounts.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
-@Schema(
-        name = "ErrorResponse",
-        description = "Schema that holds error response information"
-)
+@Schema(name = "ErrorResponse", description = "Schema that holds error response information")
 public class ErrorResponseDto {
     /*Here that de can define all the error messages?*/
     @Schema(description = "API path invoked by the client")
