@@ -12,4 +12,6 @@ public class AccountConstants {
     public static final String MESSAGE_204 = "account.deletion.success";
     public static final String MESSAGE_404 = "resource.not.found";
     public static final String MESSAGE_500 = "error.general";
+
+    public static final String RESOURCE_NOT_FOUND_WITH_DATA = "resource.not.found-with-data";
 }

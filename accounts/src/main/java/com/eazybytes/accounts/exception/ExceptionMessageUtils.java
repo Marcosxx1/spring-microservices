@@ -1,6 +1,7 @@
 package com.eazybytes.accounts.exception;
 
 import static com.eazybytes.accounts.constants.AccountConstants.MESSAGE_404;
+import static com.eazybytes.accounts.constants.AccountConstants.RESOURCE_NOT_FOUND_WITH_DATA;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,12 @@ public class ExceptionMessageUtils {
         return new CustomerAlreadyExistsException(staticMessageSourceAccessor.getMessage(MESSAGE_404));
     }
 
-    /*    public static ResourceNotFoundException resourceNotFoundException(String entityName, String fieldName, String fieldValue) {
-        String message = String.format(
-                "%s not found with %s : '%s'",
-                entityName, fieldName, fieldValue
-        );
-        return new staticMessageSourceAccessor.getMessage(MESSAGE_404, new Object[]{message}));
-    }*/
+    public static IllegalArgumentException resourceNotFoundException(
+            String entityName, String fieldName, String fieldValue) {
+        String detailedMessage = String.format("%s not found with %s : '%s'", entityName, fieldName, fieldValue);
 
+        String message =
+                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_WITH_DATA, new Object[] {detailedMessage});
+        return new IllegalArgumentException(message);
+    }
 }
