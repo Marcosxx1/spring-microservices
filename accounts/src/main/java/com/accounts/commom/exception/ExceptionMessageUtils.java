@@ -1,4 +1,4 @@
-package com.accounts.exception;
+package com.accounts.commom.exception;
 
 import static com.accounts.constants.AccountConstants.MESSAGE_404;
 import static com.accounts.constants.AccountConstants.RESOURCE_NOT_FOUND_WITH_DATA;

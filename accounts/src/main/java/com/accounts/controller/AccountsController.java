@@ -1,8 +1,8 @@
 package com.accounts.controller;
 
-import com.accounts.dto.PostNewCustomerRequest;
-import com.accounts.dto.ResponseDto;
-import com.accounts.entity.Accounts;
+import com.accounts.domain.dto.PostNewCustomerRequest;
+import com.accounts.domain.dto.ResponseDto;
+import com.accounts.domain.entity.Accounts;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

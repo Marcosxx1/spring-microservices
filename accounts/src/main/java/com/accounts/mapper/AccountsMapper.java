@@ -1,7 +1,7 @@
 package com.accounts.mapper;
 
-import com.accounts.dto.AccountsDto;
-import com.accounts.entity.Accounts;
+import com.accounts.domain.dto.AccountsDto;
+import com.accounts.domain.entity.Accounts;
 
 public class AccountsMapper {
 

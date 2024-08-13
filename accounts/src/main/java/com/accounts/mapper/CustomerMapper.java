@@ -1,7 +1,7 @@
 package com.accounts.mapper;
 
-import com.accounts.dto.PostNewCustomerRequest;
-import com.accounts.entity.Customer;
+import com.accounts.domain.dto.PostNewCustomerRequest;
+import com.accounts.domain.entity.Customer;
 
 public class CustomerMapper {
 

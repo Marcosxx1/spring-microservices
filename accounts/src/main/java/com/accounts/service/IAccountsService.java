@@ -1,7 +1,7 @@
 package com.accounts.service;
 
-import com.accounts.dto.PostNewCustomerRequest;
-import com.accounts.entity.Accounts;
+import com.accounts.domain.dto.PostNewCustomerRequest;
+import com.accounts.domain.entity.Accounts;
 import java.util.List;
 
 public interface IAccountsService {

@@ -1,9 +1,9 @@
 package com.accounts.controller;
 
 import com.accounts.constants.AccountConstants;
-import com.accounts.dto.PostNewCustomerRequest;
-import com.accounts.dto.ResponseDto;
-import com.accounts.entity.Accounts;
+import com.accounts.domain.dto.PostNewCustomerRequest;
+import com.accounts.domain.dto.ResponseDto;
+import com.accounts.domain.entity.Accounts;
 import com.accounts.service.IAccountsService;
 import java.util.List;
 import lombok.AllArgsConstructor;

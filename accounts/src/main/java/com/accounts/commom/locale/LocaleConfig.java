@@ -1,4 +1,4 @@
-package com.accounts.locale;
+package com.accounts.commom.locale;
 
 import java.util.Locale;
 import org.springframework.context.MessageSource;

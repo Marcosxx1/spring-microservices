@@ -1,6 +1,6 @@
-package com.accounts.exception;
+package com.accounts.commom.exception;
 
-import com.accounts.dto.ErrorResponseDto;
+import com.accounts.domain.dto.ErrorResponseDto;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;

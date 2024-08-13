@@ -1,11 +1,11 @@
 package com.accounts.service.impl;
 
 import com.accounts.constants.AccountConstants;
-import com.accounts.dto.AccountsDto;
-import com.accounts.dto.PostNewCustomerRequest;
-import com.accounts.entity.Accounts;
-import com.accounts.entity.Customer;
-import com.accounts.exception.ExceptionMessageUtils;
+import com.accounts.domain.dto.AccountsDto;
+import com.accounts.domain.dto.PostNewCustomerRequest;
+import com.accounts.domain.entity.Accounts;
+import com.accounts.domain.entity.Customer;
+import com.accounts.commom.exception.ExceptionMessageUtils;
 import com.accounts.mapper.AccountsMapper;
 import com.accounts.mapper.CustomerMapper;
 import com.accounts.repository.AccountsRepository;
