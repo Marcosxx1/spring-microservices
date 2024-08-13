@@ -1,13 +1,12 @@
 package com.loans.commom.exception;
 
+import static com.loans.constants.LoansConstants.MESSAGE_404;
+import static com.loans.constants.LoansConstants.RESOURCE_NOT_FOUND_WITH_DATA;
+
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
-
-import static com.loans.constants.LoansConstants.MESSAGE_404;
-import static com.loans.constants.LoansConstants.RESOURCE_NOT_FOUND_WITH_DATA;
-
 
 @Component
 public class ExceptionMessageUtils {
