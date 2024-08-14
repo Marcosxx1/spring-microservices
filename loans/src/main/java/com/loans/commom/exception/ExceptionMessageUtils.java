@@ -1,7 +1,6 @@
 package com.loans.commom.exception;
 
-import static com.loans.constants.LoansConstants.MESSAGE_404;
-import static com.loans.constants.LoansConstants.RESOURCE_NOT_FOUND_WITH_DATA;
+import static com.loans.constants.LoansConstants.*;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,14 @@ public class ExceptionMessageUtils {
 
     public static IllegalArgumentException resourceNotFoundException(
             String entityName, String fieldName, String fieldValue) {
-        String detailedMessage = String.format("%s not found with %s : '%s'", entityName, fieldName, fieldValue);
 
-        String message =
-                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_WITH_DATA, new Object[] {detailedMessage});
+        String message = staticMessageSourceAccessor.getMessage(
+                RESOURCE_NOT_FOUND_WITH_DATA, new Object[] {entityName, fieldName, fieldValue});
+
         return new IllegalArgumentException(message);
+    }
+
+    public static IllegalArgumentException resourceAlreadyExistsException() {
+        return new IllegalArgumentException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
     }
 }

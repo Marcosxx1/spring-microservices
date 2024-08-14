@@ -1,6 +1,7 @@
 package com.loans.domain.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Entity
@@ -45,4 +46,16 @@ public class Loans {
 
     @Column(name = "updated_by", length = 20)
     private String updatedBy;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now().toString();
+        this.createdBy = "System"; // TODO - TROCAR
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now().toString();
+        this.updatedBy = "System"; // TODO - TROCAR
+    }
 }
