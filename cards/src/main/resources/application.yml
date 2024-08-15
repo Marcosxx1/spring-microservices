@@ -1,0 +1,19 @@
+server:
+    port: 9000
+
+spring:
+    application:
+        name: "cards"
+    profiles:
+        active: "prod"
+    datasource:
+        url: jdbc:postgresql://localhost:5432/CARDS_MS
+        username: postgres
+        password: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: false
+    sql:
+        init:
+            mode: always
