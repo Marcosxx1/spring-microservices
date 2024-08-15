@@ -1,6 +1,6 @@
-package com.loans.commom.exception;
+package com.cards.commom.exception;
 
-import static com.loans.constants.LoansConstants.*;
+import static com.cards.constants.LoansConstants.*;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +24,16 @@ public class ExceptionMessageUtils {
         ExceptionMessageUtils.staticMessageSourceAccessor = this.messageSourceAccessor;
     }
 
-    public static LoanAlreadyExistsException loanAlreadyExistsException() {
-        return new LoanAlreadyExistsException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
+    public static CardAlreadyExistsException cardAlreadyExistsException() {
+        return new CardAlreadyExistsException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
     }
 
-    public static IllegalArgumentException resourceNotFoundException(
+    public static ResourceNotFoundException resourceNotFoundException(
             String entityName, String fieldName, String fieldValue) {
 
         String message = staticMessageSourceAccessor.getMessage(
                 RESOURCE_NOT_FOUND_WITH_DATA, new Object[] {entityName, fieldName, fieldValue});
 
-        return new IllegalArgumentException(message);
-    }
-
-    public static IllegalArgumentException resourceAlreadyExistsException() {
-        return new IllegalArgumentException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
+        return new ResourceNotFoundException(message);
     }
 }
