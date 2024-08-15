@@ -8,6 +8,7 @@ public class LoansMapper {
     public static LoansDto mapToLoansDto(Loans loans) {
 
         return LoansDto.builder()
+                .mobileNumber(loans.getMobileNumber())
                 .loanNumber(loans.getLoanNumber())
                 .loanType(loans.getLoanType())
                 .totalLoan(loans.getTotalLoan())
