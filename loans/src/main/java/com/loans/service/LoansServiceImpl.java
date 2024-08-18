@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class LoansServiceImpl implements LoansService {
 
     private final LoansRepository loansRepository;
+    private final LoansUtils loansUtils;
 
     @Override
     public void createLoan(String mobileNumber) {
@@ -25,7 +26,7 @@ public class LoansServiceImpl implements LoansService {
             throw ExceptionMessageUtils.resourceAlreadyExistsException();
         }
 
-        loansRepository.save(LoansUtils.createNewLoan(mobileNumber, LoansConstants.HOME_LOAN));
+        loansRepository.save(loansUtils.returnNewLoan(mobileNumber, LoansConstants.HOME_LOAN));
     }
 
     @Override
