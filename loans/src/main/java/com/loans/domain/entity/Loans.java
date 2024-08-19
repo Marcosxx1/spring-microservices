@@ -1,8 +1,11 @@
 package com.loans.domain.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @AllArgsConstructor
@@ -35,27 +38,15 @@ public class Loans {
     @Column(name = "outstanding_amount", nullable = false)
     private int outstandingAmount;
 
-    @Column(name = "created_at", nullable = false)
+    @CreatedDate
     private String createdAt;
 
-    @Column(name = "created_by", length = 20, nullable = false)
+    @CreatedBy
     private String createdBy;
 
-    @Column(name = "updated_at")
+    @LastModifiedDate
     private String updatedAt;
 
-    @Column(name = "updated_by", length = 20)
+    @LastModifiedBy
     private String updatedBy;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now().toString();
-        this.createdBy = "System"; // TODO - TROCAR
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now().toString();
-        this.updatedBy = "System"; // TODO - TROCAR
-    }
 }

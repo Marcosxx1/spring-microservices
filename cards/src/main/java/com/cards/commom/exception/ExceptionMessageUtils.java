@@ -1,6 +1,6 @@
 package com.cards.commom.exception;
 
-import static com.cards.constants.LoansConstants.*;
+import static com.cards.constants.CardsConstants.*;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

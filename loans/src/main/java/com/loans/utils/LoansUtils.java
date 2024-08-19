@@ -2,9 +2,8 @@ package com.loans.utils;
 
 import com.loans.constants.LoansConstants;
 import com.loans.domain.entity.Loans;
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
 @Component
 public class LoansUtils {

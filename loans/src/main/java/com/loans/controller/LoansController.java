@@ -16,15 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(
-        name = "CRUD REST APIs for Loans in EazyBank",
-        description = "CRUD REST APIs in EazyBank to CREATE, UPDATE, FETCH AND DELETE loan details")
+@Tag(name = "CRUD REST APIs for Loans", description = "CRUD REST APIs to CREATE, UPDATE, FETCH AND DELETE loan details")
 @RequestMapping(
         path = "/api",
         produces = {MediaType.APPLICATION_JSON_VALUE})
 public interface LoansController {
 
-    @Operation(summary = "Create Loan REST API", description = "REST API to create new loan inside EazyBank")
+    @Operation(summary = "Create Loan REST API", description = "REST API to create new loan")
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "HTTP Status CREATED"),
         @ApiResponse(

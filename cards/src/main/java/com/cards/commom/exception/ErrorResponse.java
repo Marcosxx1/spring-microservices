@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @Schema(name = "ErrorResponse", description = "Schema that holds error response information")
-public class ErrorResponse extends RuntimeException {
+public class ErrorResponse {
 
     @Schema(description = "API path invoked by the client")
     private String apiPath;

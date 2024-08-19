@@ -47,7 +47,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             CardAlreadyExistsException ex, WebRequest webRequest) {
 
         ErrorResponse errorResponseDto =
-                new ErrorResponse(webRequest.getDescription(false), HttpStatus.BAD_REQUEST, ex.getMessage());
+                new ErrorResponse(webRequest.getDescription(false), HttpStatus.BAD_REQUEST, ex.getMessage()); // line 50
 
         return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }

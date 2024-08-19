@@ -1,29 +1,29 @@
 server:
-  port: 8090
+    port: 8090
 spring:
-  application:
-    name: "loans"
-  profiles:
-    active: "prod"
-  datasource:
-    url: jdbc:postgresql://localhost:5432/LOANS_MS
-    username: postgres
-    password: postgres
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-  sql:
-    init:
-      mode: always
-  config:
-    import: "optional:configserver:http://localhost:8071/"
+    application:
+        name: "loans"
+    profiles:
+        active: "prod"
+    datasource:
+        url: jdbc:postgresql://localhost:5432/LOANS_MS
+        username: postgres
+        password: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: false
+    sql:
+        init:
+            mode: always
+    config:
+        import: "optional:configserver:http://localhost:8071/"
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+    endpoints:
+        web:
+            exposure:
+                include: "*"
 
 build:
-  version: 1
+    version: 1
