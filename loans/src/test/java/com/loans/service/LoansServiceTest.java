@@ -50,8 +50,10 @@ public class LoansServiceTest {
         when(messageSourceAccessor.getMessage(LoansConstants.RESOURCE_ALREADY_EXISTS))
                 .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> loansService.createLoan(mobileNumber));
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            loansService.createLoan(mobileNumber);
+        });
+
 
         assert (thrown.getMessage()).equals(errorMessage);
     }
@@ -75,8 +77,9 @@ public class LoansServiceTest {
                         new Object[] {"Loan", "mobileNumber", mobileNumber}))
                 .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> loansService.createLoan(mobileNumber));
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            loansService.fetchLoan(mobileNumber);
+        });
 
         assert (thrown.getMessage()).equals(errorMessage);
     }
@@ -116,8 +119,9 @@ public class LoansServiceTest {
                         new Object[] {"Loan", "mobileNumber", mobileNumber}))
                 .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> loansService.createLoan(mobileNumber));
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            loansService.updateLoan(loansDto);
+        });
 
         assert (thrown.getMessage()).equals(errorMessage);
     }
@@ -163,8 +167,10 @@ public class LoansServiceTest {
                         new Object[] {"Loan", "mobileNumber", mobileNumber}))
                 .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> loansService.createLoan(mobileNumber));
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            loansService.deleteLoan(mobileNumber);
+        });
+
         assertEquals(errorMessage, thrown.getMessage());
     }
 
