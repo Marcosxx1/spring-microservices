@@ -1,6 +1,5 @@
 package com.loans.controller;
 
-import com.loans.domain.dto.LoansContactInfoDto;
 import com.loans.domain.dto.LoansDto;
 import com.loans.domain.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -106,7 +105,7 @@ public interface LoansController {
     @GetMapping("/java-version")
     ResponseEntity<String> getJavaVersion();
 
-    @Operation(
+    /*    @Operation(
             summary = "Get Contact Info",
             description = "Contact Info details that can be reached out in case of any issues")
     @ApiResponses({
@@ -117,5 +116,5 @@ public interface LoansController {
                 content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/contact-info")
-    ResponseEntity<LoansContactInfoDto> getContactInfo();
+    ResponseEntity<LoansContactInfoDto> getContactInfo();*/
 }

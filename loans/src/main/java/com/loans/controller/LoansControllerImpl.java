@@ -1,7 +1,6 @@
 package com.loans.controller;
 
 import com.loans.constants.LoansConstants;
-import com.loans.domain.dto.LoansContactInfoDto;
 import com.loans.domain.dto.LoansDto;
 import com.loans.domain.dto.Response;
 import com.loans.service.LoansService;
@@ -19,7 +18,7 @@ public class LoansControllerImpl implements LoansController {
 
     private final LoansService iLoansService;
     private final Environment environment;
-    private final LoansContactInfoDto loansContactInfoDto;
+    // private final LoansContactInfoDto loansContactInfoDto;
     private final MessageSourceAccessor staticMessageSourceAccessor;
 
     @Value("${build.version}")
@@ -79,8 +78,8 @@ public class LoansControllerImpl implements LoansController {
         return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
     }
 
-    @Override
+    /*    @Override
     public ResponseEntity<LoansContactInfoDto> getContactInfo() {
         return ResponseEntity.status(HttpStatus.OK).body(loansContactInfoDto);
-    }
+    }*/
 }

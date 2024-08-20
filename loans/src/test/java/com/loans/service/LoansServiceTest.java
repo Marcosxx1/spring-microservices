@@ -1,7 +1,6 @@
 package com.loans.service;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.loans.commom.exception.ExceptionMessageUtils;
@@ -14,7 +13,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -52,9 +50,8 @@ public class LoansServiceTest {
         when(messageSourceAccessor.getMessage(LoansConstants.RESOURCE_ALREADY_EXISTS))
                 .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            loansService.createLoan(mobileNumber);
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> loansService.createLoan(mobileNumber));
 
         assert (thrown.getMessage()).equals(errorMessage);
     }
@@ -78,9 +75,8 @@ public class LoansServiceTest {
                         new Object[] {"Loan", "mobileNumber", mobileNumber}))
                 .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            loansService.fetchLoan(mobileNumber);
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> loansService.createLoan(mobileNumber));
 
         assert (thrown.getMessage()).equals(errorMessage);
     }
@@ -98,27 +94,6 @@ public class LoansServiceTest {
         assert (result.getMobileNumber()).equals(mobileNumber);
     }
 
-    /*    @Override
-    public boolean updateLoan(LoansDto loansDto) {
-        Loans loanFound = findOrThrow(
-                loansRepository.findByMobileNumber(loansDto.getMobileNumber()),
-                "Loan",
-                "mobileNumber",
-                loansDto.getMobileNumber());
-
-        var loanToUpdate = LoansMapper.mapToLoans(loansDto, loanFound);
-        Loans updatedLoan = loansRepository.save(loanToUpdate);
-
-        return updatedLoan.equals(loanToUpdate);
-    }    public static Loans mapToLoans(LoansDto loansDto, Loans loans) {
-        loans.setLoanNumber(loansDto.getLoanNumber());
-        loans.setLoanType(loansDto.getLoanType());
-        loans.setTotalLoan(loansDto.getTotalLoan());
-        loans.setAmountPaid(loansDto.getAmountPaid());
-        loans.setOutstandingAmount(loansDto.getOutstandingAmount());
-
-        return loans;
-    }*/
     @Test
     public void testUpdateLoan_whenLoanDoesNotExists_thenThrowResourceNotFoundException() {
         String mobileNumber = "321654987654";
@@ -141,9 +116,8 @@ public class LoansServiceTest {
                         new Object[] {"Loan", "mobileNumber", mobileNumber}))
                 .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            loansService.updateLoan(loansDto);
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> loansService.createLoan(mobileNumber));
 
         assert (thrown.getMessage()).equals(errorMessage);
     }
@@ -173,6 +147,46 @@ public class LoansServiceTest {
         verify(loansRepository, times(1)).save(any(Loans.class));
         verify(loansRepository, times(1)).findByMobileNumber(mobileNumber);
         verify(messageSourceAccessor, times(0)).getMessage(anyString(), any(Object[].class));
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testDeleteLoan_whenLoanDoesNotExist_thenThrowResourceNotFoundException() {
+        String mobileNumber = "321654987654";
+        String errorMessage = "Loan not found";
+
+        when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.empty());
+
+        when(messageSourceAccessor.getMessage(
+                        LoansConstants.RESOURCE_NOT_FOUND_WITH_DATA,
+                        new Object[] {"Loan", "mobileNumber", mobileNumber}))
+                .thenReturn(errorMessage);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> loansService.createLoan(mobileNumber));
+        assertEquals(errorMessage, thrown.getMessage());
+    }
+
+    @Test
+    public void testDeleteLoan_whenLoanExists_thenDeleteLoan() {
+        String mobileNumber = "321654987654";
+
+        Loans loan = new Loans();
+        loan.setLoanId(1L);
+        loan.setMobileNumber(mobileNumber);
+
+        when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.of(loan));
+
+        doNothing().when(loansRepository).deleteById(loan.getLoanId());
+
+        when(loansRepository.findById(loan.getLoanId())).thenReturn(Optional.empty());
+
+        boolean result = loansService.deleteLoan(mobileNumber);
+
+        verify(loansRepository, times(1)).findByMobileNumber(mobileNumber);
+        verify(loansRepository, times(1)).deleteById(loan.getLoanId());
+        verify(loansRepository, times(1)).findById(loan.getLoanId());
 
         assertTrue(result);
     }
