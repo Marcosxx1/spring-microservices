@@ -1,11 +1,11 @@
 package com.accounts.service.impl;
 
+import com.accounts.commom.exception.ExceptionMessageUtils;
 import com.accounts.constants.AccountConstants;
 import com.accounts.domain.dto.AccountsDto;
 import com.accounts.domain.dto.PostNewCustomerRequest;
 import com.accounts.domain.entity.Accounts;
 import com.accounts.domain.entity.Customer;
-import com.accounts.commom.exception.ExceptionMessageUtils;
 import com.accounts.mapper.AccountsMapper;
 import com.accounts.mapper.CustomerMapper;
 import com.accounts.repository.AccountsRepository;
@@ -51,18 +51,32 @@ public class AccountsServiceImpl implements IAccountsService {
 
     @Override
     public PostNewCustomerRequest fetchAccount(String mobileNumber) {
-        Customer customer = findOrThrow(customerRepository.findByMobileNumber(mobileNumber), "Customer", "mobileNumber", mobileNumber);
-        Accounts account = findOrThrow(accountsRepository.findByCustomerId(customer.getCustomerId()), "Account", "customerId", customer.getCustomerId().toString());
+        Customer customer = findOrThrow(
+                customerRepository.findByMobileNumber(mobileNumber), "Customer", "mobileNumber", mobileNumber);
+        Accounts account = findOrThrow(
+                accountsRepository.findByCustomerId(customer.getCustomerId()),
+                "Account",
+                "customerId",
+                customer.getCustomerId().toString());
 
-        PostNewCustomerRequest postNewCustomerRequest = CustomerMapper.mapToCustomerDto(customer, new PostNewCustomerRequest());
+        PostNewCustomerRequest postNewCustomerRequest =
+                CustomerMapper.mapToCustomerDto(customer, new PostNewCustomerRequest());
         postNewCustomerRequest.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
         return postNewCustomerRequest;
     }
 
     @Override
     public boolean updateAccount(PostNewCustomerRequest postNewCustomerRequest) {
-        Customer customer = findOrThrow(customerRepository.findByMobileNumber(postNewCustomerRequest.getMobileNumber()), "Customer", "mobileNumber", postNewCustomerRequest.getMobileNumber().toString());
-        Accounts account = findOrThrow(accountsRepository.findByCustomerId(customer.getCustomerId()), "Account", "customerId", customer.getCustomerId().toString());
+        Customer customer = findOrThrow(
+                customerRepository.findByMobileNumber(postNewCustomerRequest.getMobileNumber()),
+                "Customer",
+                "mobileNumber",
+                postNewCustomerRequest.getMobileNumber().toString());
+        Accounts account = findOrThrow(
+                accountsRepository.findByCustomerId(customer.getCustomerId()),
+                "Account",
+                "customerId",
+                customer.getCustomerId().toString());
 
         customer.setName(postNewCustomerRequest.getName());
         customer.setEmail(postNewCustomerRequest.getEmail());
@@ -79,8 +93,13 @@ public class AccountsServiceImpl implements IAccountsService {
 
     @Override
     public boolean deleteAccount(String mobileNumber) {
-        Customer customer = findOrThrow(customerRepository.findByMobileNumber(mobileNumber), "Customer", "mobileNumber", mobileNumber);
-        Accounts account = findOrThrow(accountsRepository.findByCustomerId(customer.getCustomerId()), "Account", "customerId", customer.getCustomerId().toString());
+        Customer customer = findOrThrow(
+                customerRepository.findByMobileNumber(mobileNumber), "Customer", "mobileNumber", mobileNumber);
+        Accounts account = findOrThrow(
+                accountsRepository.findByCustomerId(customer.getCustomerId()),
+                "Account",
+                "customerId",
+                customer.getCustomerId().toString());
 
         customerRepository.delete(customer);
         accountsRepository.delete(account);
@@ -94,6 +113,7 @@ public class AccountsServiceImpl implements IAccountsService {
     }
 
     private <T> T findOrThrow(Optional<T> optional, String entityName, String fieldName, String fieldValue) {
-        return optional.orElseThrow(() -> ExceptionMessageUtils.resourceNotFoundException(entityName, fieldName, fieldValue));
+        return optional.orElseThrow(
+                () -> ExceptionMessageUtils.resourceNotFoundException(entityName, fieldName, fieldValue));
     }
 }
