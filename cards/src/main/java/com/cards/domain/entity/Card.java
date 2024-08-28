@@ -7,6 +7,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Builder
 @NoArgsConstructor
@@ -40,15 +42,27 @@ public class Card {
     @Column(name = "available_amount", nullable = false)
     private Integer availableAmount;
 
-    @CreatedDate
-    private String createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    @CreatedBy
+    @Column(name = "created_by")
     private String createdBy;
 
-    @LastModifiedDate
-    private String updatedAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-    @LastModifiedBy
+    @Column(name = "updated_by")
     private String updatedBy;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.createdBy = "SYSTEM";
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = "SYSTEM";
+    }
 }

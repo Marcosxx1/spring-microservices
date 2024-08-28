@@ -54,7 +54,6 @@ public class LoansServiceTest {
             loansService.createLoan(mobileNumber);
         });
 
-
         assert (thrown.getMessage()).equals(errorMessage);
     }
 
