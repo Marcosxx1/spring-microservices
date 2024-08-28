@@ -14,4 +14,5 @@ public class AccountConstants {
     public static final String MESSAGE_500 = "error.general";
 
     public static final String RESOURCE_NOT_FOUND_WITH_DATA = "resource.not.found-with-data";
+    public static final String RESOURCE_ALREADY_EXISTS = "resource.already.exists";
 }
