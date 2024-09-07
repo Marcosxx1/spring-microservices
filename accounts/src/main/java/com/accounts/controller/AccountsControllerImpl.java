@@ -7,6 +7,7 @@ import com.accounts.domain.entity.Accounts;
 import com.accounts.service.IAccountsService;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountsControllerImpl implements AccountsController {
 
     private final IAccountsService iAccountsService;
+    private final MessageSourceAccessor staticMessageSourceAccessor;
 
     @Override
     public ResponseEntity<ResponseDto> createAccount(PostNewCustomerRequest postNewCustomerRequest) {
         iAccountsService.createAccount(postNewCustomerRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ResponseDto(HttpStatus.CREATED, AccountConstants.MESSAGE_201));
+                .body(new ResponseDto(HttpStatus.CREATED, staticMessageSourceAccessor.getMessage(AccountConstants.MESSAGE_201)));
     }
 
     @Override
@@ -46,10 +48,10 @@ public class AccountsControllerImpl implements AccountsController {
         boolean updated = iAccountsService.updateAccount(postNewCustomerRequest);
         if (updated) {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseDto(HttpStatus.OK, AccountConstants.MESSAGE_200));
+                    .body(new ResponseDto(HttpStatus.OK, staticMessageSourceAccessor.getMessage(AccountConstants.MESSAGE_200)));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ResponseDto(HttpStatus.NOT_FOUND, AccountConstants.MESSAGE_404));
+                    .body(new ResponseDto(HttpStatus.NOT_FOUND, staticMessageSourceAccessor.getMessage(AccountConstants.MESSAGE_404)));
         }
     }
 

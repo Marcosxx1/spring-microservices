@@ -71,7 +71,7 @@ public class AccountsServiceImpl implements IAccountsService {
                 customerRepository.findByMobileNumber(postNewCustomerRequest.getMobileNumber()),
                 "Customer",
                 "mobileNumber",
-                postNewCustomerRequest.getMobileNumber().toString());
+                postNewCustomerRequest.getMobileNumber());
         Accounts account = findOrThrow(
                 accountsRepository.findByCustomerId(customer.getCustomerId()),
                 "Account",

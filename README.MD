@@ -108,5 +108,84 @@ To build the Docker image using the above configuration, run the following Maven
 
   ```bash
   mvn spring-boot:build-image
-
    ```
+
+
+
+## Google Jib
+* First we add this dependency to our pom  
+```xml
+<plugin>
+  <groupId>com.google.cloud.tools</groupId> <!--mvn compile jib:dockerBuild-->
+  <artifactId>jib-maven-plugin</artifactId>
+  <version>3.4.2</version>
+  <configuration>
+    <to>
+      <image>marcossata/${project.artifactId}:s4</image>
+    </to>
+  </configuration>
+</plugin>
+   ```
+* Run this command:
+```bash
+mvn compile jib:dockerBuild 
+```
+
+* Why use Google Jib?
+  * It offers an alternative approach to Dockerfiles, with it, we can automatically generate production ready OCI images
+  * from their application soure code without the need to write a Dockerfile and even local Docker setup
+
+
+## Pushing images to Docker Hub
+```bash
+docker image push docker.io/<account_name>/<image_name>:<tag>
+
+In my case:
+
+docker image push docker.io/marcossata/loans:s4
+```
+
+## Using docker-compose file
+
+```yaml
+services:
+    accounts:
+        image: marcossata/accounts:s4 # Que subimos no Docker.io hub
+        container_name: accounts-ms
+        ports:
+            - "8080:8080"
+            #- Podemos definir várias portas para o serviço
+        deploy:
+            resources:
+                 limits:
+                     memory: 700m
+        networks:
+            - bankApplication # Rede interna que os serviços vão se comunicar
+
+    loans:
+        image: marcossata/loans:s4
+        container_name: loans-ms
+        ports:
+            - "8090:8090"
+        deploy:
+            resources:
+                limits:
+                    memory: 700m
+        networks:
+            - bankApplication
+
+    cards:
+        image: marcossata/cards:s4
+        container_name: cards-ms
+        ports:
+            - "9000:9000"
+        deploy:
+            resources:
+                limits:
+                    memory: 700m
+        networks:
+            - bankApplication
+networks:
+    bankApplication: # Rede interna que os serviços vão se comunicar
+        driver: "bridge"
+```
