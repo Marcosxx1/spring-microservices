@@ -22,5 +22,4 @@ public class ErrorResponse {
 
     @Schema(description = "Error message representing the error that happened")
     private String errorMessage;
-
 }

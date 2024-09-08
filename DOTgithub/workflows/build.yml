@@ -1,0 +1,39 @@
+name: Build and Format
+
+on:
+    push:
+        branches:
+            - main  # TODO - TROCAR
+    pull_request:
+        branches:
+            - main  # TODO - TROCAR
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up JDK
+              uses: actions/setup-java@v3
+              with:
+                  java-version: '17'
+
+            - name: Build and format accounts service
+              working-directory: ./accounts
+              run: |
+                  mvn spotless:apply
+                  mvn clean package
+
+            - name: Build and format loans service
+              working-directory: ./loans
+              run: |
+                  mvn spotless:apply
+                  mvn clean package
+
+            - name: Build and format cards service
+              working-directory: ./cards
+              run: |
+                  mvn spotless:apply
+                  mvn clean package

@@ -1,7 +1,32 @@
 # PROVISORY README
 
-### Add this to the `pom.xml` for Dockerization:
 
+## How to run locally
+
+### Prerequisites
+* Java Development Kit (JDK) 17: Ensure that you have JDK 17 installed on your machine.
+* Maven: Ensure that Apache Maven is installed for building the Java services.
+* Docker: Ensure that Docker is installed for containerization.
+* Docker Compose: Ensure that Docker Compose is installed for managing multi-container Docker applications.
+
+### 1. Build All Services
+To build all Java services and create Docker images, run the `build-all-services.sh` script. This script will format the
+code using Spotless and package the services into JAR files.
+
+```bash
+./build-all-services.sh
+```
+
+### 2. Build and Run Containers with Docker Compose
+After building the services, you can use Docker Compose to build and run the containers. Docker Compose will manage the
+multi-container setup and networking.
+### Add this to the `pom.xml` for Dockerization:
+```bash
+docker-compose up --build
+```
+
+
+# Study notes
 ```xml
 
 <packaging>jar</packaging> <!-- DOCKERIZATION -->
@@ -189,3 +214,85 @@ networks:
     bankApplication: # Rede interna que os serviços vão se comunicar
         driver: "bridge"
 ```
+
+## Useful docker compose commands
+- **Start services in the background (detached mode):
+  ```bash
+  docker-compose up -d 
+  ```
+- 
+- **Stop all running services:**
+  ```bash
+  docker-compose down
+  ```
+-**Rebuild the services (useful when Dockerfile or dependencies change):**
+```bash
+docker-compose up --build
+```
+
+-**View logs from running services:**
+
+```bash
+docker-compose logs
+```
+
+- **docker-compose logs <service_name>**
+```bash
+docker-compose logs <service_name>
+
+ ```
+
+- **Scale a service to a specific number of instances:**
+```bash
+docker-compose up --scale <service_name>=<number>
+ ```
+
+- **Stop services without removing containers:**
+```bash
+docker-compose stop
+ ```
+
+- **Remove stopped containers:**
+```bash
+docker-compose rm
+ ```
+
+- **Execute a command inside a running service container:**
+```bash
+docker-compose exec <service_name> <command>
+ ```
+
+- **List containers associated with the compose project:**
+```bash
+docker-compose ps
+ ```
+
+- **pull the latest images for all services:**
+```bash
+docker-compose pull
+ ```
+
+- **Force recreation of containers (even if there are no changes):**
+```bash
+docker-compose up -d --force-recreate
+ ```
+
+- **Start specific services:**
+```bash
+docker-compose up -d <service_name>
+ ```
+
+- **Remove containers, networks, and volumes created by docker-compose up:**
+```bash
+docker-compose down --volumes
+ ```
+
+- **Start interactive shell inside a container:**
+```bash
+docker-compose run <service_name> /bin/sh
+ ```
+
+
+- ****
+```bash
+ ```

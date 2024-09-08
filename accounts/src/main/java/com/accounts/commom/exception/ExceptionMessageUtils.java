@@ -1,11 +1,11 @@
 package com.accounts.commom.exception;
 
+import static com.accounts.constants.AccountConstants.*;
+
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
-
-import static com.accounts.constants.AccountConstants.*;
 
 @Component
 public class ExceptionMessageUtils {
