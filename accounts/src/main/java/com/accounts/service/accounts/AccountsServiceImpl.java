@@ -1,8 +1,9 @@
-package com.accounts.service.impl;
+package com.accounts.service.accounts;
 
 import com.accounts.commom.exception.ExceptionMessageUtils;
 import com.accounts.constants.AccountConstants;
 import com.accounts.domain.dto.AccountsDto;
+import com.accounts.domain.dto.CustomerResponse;
 import com.accounts.domain.dto.PostNewCustomerRequest;
 import com.accounts.domain.entity.Accounts;
 import com.accounts.domain.entity.Customer;
@@ -10,7 +11,6 @@ import com.accounts.mapper.AccountsMapper;
 import com.accounts.mapper.CustomerMapper;
 import com.accounts.repository.AccountsRepository;
 import com.accounts.repository.CustomerRepository;
-import com.accounts.service.IAccountsService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +30,12 @@ public class AccountsServiceImpl implements IAccountsService {
         Customer customer = CustomerMapper.mapToCustomer(postNewCustomerRequest, new Customer());
 
         Optional<Customer> optionalCustomer = customerRepository.findByMobileNumber(customer.getMobileNumber());
-        if (optionalCustomer.isPresent()) throw ExceptionMessageUtils.customerAlreadyExistsException();
+        if (optionalCustomer.isPresent())
+            throw ExceptionMessageUtils.customerAlreadyExistsException(customer.getMobileNumber());
 
         customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("someone");
+        customer.setCreatedBy("USER");
+
         Customer savedCustomer = customerRepository.save(customer);
 
         accountsRepository.save(createNewAccount(savedCustomer));
@@ -50,7 +52,7 @@ public class AccountsServiceImpl implements IAccountsService {
     }
 
     @Override
-    public PostNewCustomerRequest fetchAccount(String mobileNumber) {
+    public CustomerResponse fetchAccount(String mobileNumber) {
         Customer customer = findOrThrow(
                 customerRepository.findByMobileNumber(mobileNumber), "Customer", "mobileNumber", mobileNumber);
         Accounts account = findOrThrow(
@@ -59,31 +61,30 @@ public class AccountsServiceImpl implements IAccountsService {
                 "customerId",
                 customer.getCustomerId().toString());
 
-        PostNewCustomerRequest postNewCustomerRequest =
-                CustomerMapper.mapToCustomerDto(customer, new PostNewCustomerRequest());
-        postNewCustomerRequest.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
-        return postNewCustomerRequest;
+        CustomerResponse customerResponse = CustomerMapper.mapToCustomerDto(customer, new CustomerResponse());
+        customerResponse.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
+        return customerResponse;
     }
 
     @Override
-    public boolean updateAccount(PostNewCustomerRequest postNewCustomerRequest) {
+    public boolean updateAccount(CustomerResponse customerResponse) {
         Customer customer = findOrThrow(
-                customerRepository.findByMobileNumber(postNewCustomerRequest.getMobileNumber()),
+                customerRepository.findByMobileNumber(customerResponse.getMobileNumber()),
                 "Customer",
                 "mobileNumber",
-                postNewCustomerRequest.getMobileNumber());
+                customerResponse.getMobileNumber());
         Accounts account = findOrThrow(
                 accountsRepository.findByCustomerId(customer.getCustomerId()),
                 "Account",
                 "customerId",
                 customer.getCustomerId().toString());
 
-        customer.setName(postNewCustomerRequest.getName());
-        customer.setEmail(postNewCustomerRequest.getEmail());
-        customer.setMobileNumber(postNewCustomerRequest.getMobileNumber());
+        customer.setName(customerResponse.getName());
+        customer.setEmail(customerResponse.getEmail());
+        customer.setMobileNumber(customerResponse.getMobileNumber());
 
-        account.setAccountType(postNewCustomerRequest.getAccountsDto().getAccountType());
-        account.setBranchAddress(postNewCustomerRequest.getAccountsDto().getBranchAddress());
+        account.setAccountType(customerResponse.getAccountsDto().getAccountType());
+        account.setBranchAddress(customerResponse.getAccountsDto().getBranchAddress());
 
         customerRepository.save(customer);
         accountsRepository.save(account);

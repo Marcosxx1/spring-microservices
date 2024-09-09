@@ -24,8 +24,10 @@ public class ExceptionMessageUtils {
         ExceptionMessageUtils.staticMessageSourceAccessor = this.messageSourceAccessor;
     }
 
-    public static CustomerAlreadyExistsException customerAlreadyExistsException() {
-        return new CustomerAlreadyExistsException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
+    public static CustomerAlreadyExistsException customerAlreadyExistsException(String mobilePhone) {
+        return new CustomerAlreadyExistsException(
+                staticMessageSourceAccessor.getMessage(CUSTOMER_ALREADY_EXISTS_TITLE),
+                staticMessageSourceAccessor.getMessage(CUSTOMER_ALREADY_EXISTS_DETAIL, new Object[] {mobilePhone}));
     }
 
     public static IllegalArgumentException resourceNotFoundException(

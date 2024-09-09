@@ -1,8 +1,6 @@
 package com.accounts.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +9,11 @@ import lombok.Setter;
 @Entity
 public class Accounts extends BaseEntity {
 
+    @Id
     @Column(name = "customer_id")
     private Long customerId;
 
     @Column(name = "account_number")
-    @Id
     private Long accountNumber;
 
     @Column(name = "account_type")
