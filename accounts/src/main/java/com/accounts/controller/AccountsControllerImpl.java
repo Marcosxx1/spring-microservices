@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,8 @@ public class AccountsControllerImpl implements AccountsController {
 
     private final IAccountsService iAccountsService;
     private final MessageSourceAccessor staticMessageSourceAccessor;
+    private final Environment environment;
+
 
     @Value("${build.version:}")
     private String build;
@@ -107,5 +110,11 @@ public class AccountsControllerImpl implements AccountsController {
     public ResponseEntity<String> getBuildInfo() {
         log.info("GET on /build-info - Fetching build info");
         return ResponseEntity.status(HttpStatus.OK).body(build);
+    }
+
+    @Override
+    public ResponseEntity<String> getJavaVersion() {
+        log.info("GET on /java-version - java version");
+        return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
     }
 }

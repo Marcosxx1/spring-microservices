@@ -1,7 +1,8 @@
 package com.accounts.controller;
 
-import com.accounts.domain.dto.CustomerResponse;
-import com.accounts.domain.dto.PostNewCustomerRequest;
+ import com.accounts.domain.dto.CustomerResponse;
+ import com.accounts.domain.dto.ErrorResponseDto;
+ import com.accounts.domain.dto.PostNewCustomerRequest;
 import com.accounts.domain.dto.ResponseDto;
 import com.accounts.domain.entity.Accounts;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,8 +16,7 @@ import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.*;
+ import org.springframework.web.bind.annotation.*;
 
 @Validated
 @Tag(name = "CRUD for accounts", description = "Create, Update, fetch and Delete account details")
@@ -37,11 +37,11 @@ public interface AccountsController {
         @ApiResponse(
                 responseCode = "409",
                 description = "HTTP status Conflict. Customer already exists.",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
         @ApiResponse(
                 responseCode = "400",
                 description = "HTTP status Bad Request. Invalid request parameters.",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PostMapping("/create")
     ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody PostNewCustomerRequest postNewCustomerRequest);
@@ -63,7 +63,7 @@ public interface AccountsController {
     @ApiResponse(
             responseCode = "500",
             description = "HTTP Internal Server Error",
-            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     @PutMapping("/update")
     ResponseEntity<ResponseDto> updateAccount(@Valid @RequestBody CustomerResponse customerResponse);
 
@@ -81,8 +81,12 @@ public interface AccountsController {
         @ApiResponse(
                 responseCode = "500",
                 description = "HTTP STATUS Internal Server Error",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
+
     @GetMapping("/build-info")
     ResponseEntity<String> getBuildInfo();
+
+    @GetMapping("/java-version")
+    ResponseEntity<String> getJavaVersion();
 }
