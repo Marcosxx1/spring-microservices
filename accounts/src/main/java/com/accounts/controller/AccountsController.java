@@ -1,8 +1,8 @@
 package com.accounts.controller;
 
- import com.accounts.domain.dto.CustomerResponse;
- import com.accounts.domain.dto.ErrorResponseDto;
- import com.accounts.domain.dto.PostNewCustomerRequest;
+import com.accounts.domain.dto.CustomerResponse;
+import com.accounts.domain.dto.ErrorResponseDto;
+import com.accounts.domain.dto.PostNewCustomerRequest;
 import com.accounts.domain.dto.ResponseDto;
 import com.accounts.domain.entity.Accounts;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
- import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
 @Validated
 @Tag(name = "CRUD for accounts", description = "Create, Update, fetch and Delete account details")
@@ -83,7 +83,6 @@ public interface AccountsController {
                 description = "HTTP STATUS Internal Server Error",
                 content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
-
     @GetMapping("/build-info")
     ResponseEntity<String> getBuildInfo();
 

@@ -29,7 +29,6 @@ public class AccountsControllerImpl implements AccountsController {
     private final MessageSourceAccessor staticMessageSourceAccessor;
     private final Environment environment;
 
-
     @Value("${build.version:}")
     private String build;
 
