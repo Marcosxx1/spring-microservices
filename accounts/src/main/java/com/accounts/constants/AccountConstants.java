@@ -12,7 +12,8 @@ public class AccountConstants {
     public static final String MESSAGE_204 = "account.deletion.success";
     public static final String MESSAGE_404 = "resource.not.found";
 
-    public static final String RESOURCE_NOT_FOUND_WITH_DATA = "resource.not.found-with-data";
+    public static final String RESOURCE_NOT_FOUND_TITLE = "resource.not.found-title";
+    public static final String RESOURCE_NOT_FOUND_DETAIL = "resource.not.found-detail";
 
     public static final String CUSTOMER_ALREADY_EXISTS_TITLE = "customer.already.exists-title";
     public static final String CUSTOMER_ALREADY_EXISTS_DETAIL = "customer.already.exists-detail";

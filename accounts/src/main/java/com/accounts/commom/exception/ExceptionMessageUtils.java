@@ -25,17 +25,17 @@ public class ExceptionMessageUtils {
     }
 
     public static CustomerAlreadyExistsException customerAlreadyExistsException(String mobilePhone) {
+
         return new CustomerAlreadyExistsException(
                 staticMessageSourceAccessor.getMessage(CUSTOMER_ALREADY_EXISTS_TITLE),
                 staticMessageSourceAccessor.getMessage(CUSTOMER_ALREADY_EXISTS_DETAIL, new Object[] {mobilePhone}));
     }
 
-    public static IllegalArgumentException resourceNotFoundException(
-            String entityName, String fieldName, String fieldValue) {
-        String detailedMessage = String.format("%s not found with %s : '%s'", entityName, fieldName, fieldValue);
+    public static ResourceNotFoundException resourceNotFoundException(String typeOfResource, String identifier) {
+        String message = String.format("%s not found for the given data: %s", typeOfResource, identifier);
 
-        String message =
-                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_WITH_DATA, new Object[] {detailedMessage});
-        return new IllegalArgumentException(message);
+        return new ResourceNotFoundException(
+                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_TITLE),
+                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_DETAIL, new Object[] {message}));
     }
 }
