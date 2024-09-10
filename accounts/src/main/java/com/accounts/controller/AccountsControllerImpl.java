@@ -1,6 +1,7 @@
 package com.accounts.controller;
 
 import com.accounts.constants.AccountConstants;
+import com.accounts.domain.dto.AccountContactInfo;
 import com.accounts.domain.dto.CustomerResponse;
 import com.accounts.domain.dto.PostNewCustomerRequest;
 import com.accounts.domain.dto.ResponseDto;
@@ -28,6 +29,7 @@ public class AccountsControllerImpl implements AccountsController {
     private final IAccountsService iAccountsService;
     private final MessageSourceAccessor staticMessageSourceAccessor;
     private final Environment environment;
+    private final AccountContactInfo accountContactInfo;
 
     @Value("${build.version:}")
     private String build;
@@ -107,13 +109,18 @@ public class AccountsControllerImpl implements AccountsController {
 
     @Override
     public ResponseEntity<String> getBuildInfo() {
-        log.info("GET on /build-info - Fetching build info");
+        log.info("GET on getBuildInfo() /build-info - Fetching build info");
         return ResponseEntity.status(HttpStatus.OK).body(build);
     }
 
     @Override
     public ResponseEntity<String> getJavaVersion() {
-        log.info("GET on /java-version - java version");
+        log.info("GET on getJavaVersion() /java-version - java version");
         return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @Override
+    public ResponseEntity<AccountContactInfo> getContactInfo() {
+        return ResponseEntity.status(HttpStatus.OK).body(accountContactInfo);
     }
 }

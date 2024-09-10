@@ -1,5 +1,6 @@
 package com.accounts.controller;
 
+import com.accounts.domain.dto.*;
 import com.accounts.domain.dto.CustomerResponse;
 import com.accounts.domain.dto.ErrorResponseDto;
 import com.accounts.domain.dto.PostNewCustomerRequest;
@@ -83,9 +84,13 @@ public interface AccountsController {
                 description = "HTTP STATUS Internal Server Error",
                 content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
-    @GetMapping("/build-info")
+
+    @GetMapping("/build-info") // Using @Value
     ResponseEntity<String> getBuildInfo();
 
-    @GetMapping("/java-version")
+    @GetMapping("/java-version") // Using Environment environment
     ResponseEntity<String> getJavaVersion();
+
+    @GetMapping("/contact-info") // Using AccountContactInfo
+    ResponseEntity<AccountContactInfo> getContactInfo();
 }
