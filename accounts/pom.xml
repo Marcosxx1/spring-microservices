@@ -99,4 +99,30 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>default</spring.profiles.active>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>qa</id>
+			<properties>
+				<spring.profiles.active>qa</spring.profiles.active>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+
 </project>

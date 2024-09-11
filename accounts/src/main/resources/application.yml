@@ -14,12 +14,18 @@ spring:
         hibernate:
             ddl-auto: update
         show-sql: false
+    profiles:
+        active: @spring.profiles.active@
+    config:
+        import:
+            - "application_qa.yml"
+            - "application_prod.yml"
 
 build:
-    version: "1.0"
+    version: "3.0"
 
 accounts:
-    message: "Microservice for Accounts"
+    message: "Microservice for Accounts. Environment: DEFAULT"
     contactDetails:
         name: "Marcosxx1"
         email: "marcosxx1.ma@gmail.com"
