@@ -1,13 +1,16 @@
 package com.cards.controller;
 
 import com.cards.constants.CardsConstants;
+import com.cards.domain.dto.CardContactInfo;
 import com.cards.domain.dto.CardsDto;
 import com.cards.domain.dto.Response;
 import com.cards.service.CardService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +25,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Validated
 public class CardsControllerImpl implements CardsController {
+
     private final CardService cardService;
     private final MessageSourceAccessor staticMessageSourceAccessor;
+    private final Environment environment;
+    private final CardContactInfo cardContactInfo;
+
+    @Value("${build.version}")
+    String build;
 
     @Override
     public ResponseEntity<Response> createCard(String mobileNumber) {
@@ -67,5 +76,20 @@ public class CardsControllerImpl implements CardsController {
                             HttpStatus.EXPECTATION_FAILED,
                             staticMessageSourceAccessor.getMessage(CardsConstants.MESSAGE_417_DELETE)));
         }
+    }
+
+    @Override
+    public ResponseEntity<String> getBuildInfo() {
+        return ResponseEntity.status(HttpStatus.OK).body(build);
+    }
+
+    @Override
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @Override
+    public ResponseEntity<CardContactInfo> getContactInfo() {
+        return ResponseEntity.status(HttpStatus.OK).body(cardContactInfo);
     }
 }

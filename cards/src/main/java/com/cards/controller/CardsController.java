@@ -1,5 +1,6 @@
 package com.cards.controller;
 
+import com.cards.domain.dto.CardContactInfo;
 import com.cards.domain.dto.CardsDto;
 import com.cards.domain.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,4 +58,13 @@ public interface CardsController {
     ResponseEntity<Response> deleteCardDetails(
             @RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
                     String mobileNumber);
+
+    @GetMapping("/build-info") // Using @Value
+    ResponseEntity<String> getBuildInfo();
+
+    @GetMapping("/java-version") // Using Environment environment
+    ResponseEntity<String> getJavaVersion();
+
+    @GetMapping("/contact-info") // Using AccountContactInfo
+    ResponseEntity<CardContactInfo> getContactInfo();
 }

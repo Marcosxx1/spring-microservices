@@ -14,7 +14,22 @@ spring:
         database-platform: org.hibernate.dialect.H2Dialect
         hibernate:
             ddl-auto: update
-        show-sql: true
-    sql:
-        init:
-            mode: always
+        show-sql: false
+    profiles:
+        active: @spring.profiles.active@
+    config:
+        import:
+            - "application_qa.yml"
+            - "application_prod.yml"
+
+build:
+    version: "3.0"
+
+cards:
+    message: "Microservice for Cards. Environment: DEFAULT"
+    contactDetails:
+        name: "Marcosxx1"
+        email: "marcosxx1.ma@gmail.com"
+    onCallSuport:
+        - (XX) XXX-XXX1
+        - (XX) XXX-XXX2
