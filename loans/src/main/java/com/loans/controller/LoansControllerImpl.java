@@ -1,6 +1,7 @@
 package com.loans.controller;
 
 import com.loans.constants.LoansConstants;
+import com.loans.domain.dto.LoanContactInfo;
 import com.loans.domain.dto.LoansDto;
 import com.loans.domain.dto.Response;
 import com.loans.service.LoansService;
@@ -18,11 +19,11 @@ public class LoansControllerImpl implements LoansController {
 
     private final LoansService iLoansService;
     private final Environment environment;
-    // private final LoansContactInfoDto loansContactInfoDto;
     private final MessageSourceAccessor staticMessageSourceAccessor;
+    private final LoanContactInfo loanContactInfo;
 
     @Value("${build.version}")
-    private String buildVersion;
+    String build;
 
     @Override
     public ResponseEntity<Response> createLoan(String mobileNumber) {
@@ -70,7 +71,7 @@ public class LoansControllerImpl implements LoansController {
 
     @Override
     public ResponseEntity<String> getBuildInfo() {
-        return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+        return ResponseEntity.status(HttpStatus.OK).body(build);
     }
 
     @Override
@@ -78,8 +79,8 @@ public class LoansControllerImpl implements LoansController {
         return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
     }
 
-    /*    @Override
-    public ResponseEntity<LoansContactInfoDto> getContactInfo() {
-        return ResponseEntity.status(HttpStatus.OK).body(loansContactInfoDto);
-    }*/
+    @Override
+    public ResponseEntity<LoanContactInfo> getContactInfo() {
+        return ResponseEntity.status(HttpStatus.OK).body(loanContactInfo);
+    }
 }
