@@ -5,7 +5,7 @@ import com.accounts.domain.dto.CustomerResponse;
 import com.accounts.domain.dto.PostNewCustomerRequest;
 import com.accounts.domain.entity.Accounts;
 import com.accounts.domain.entity.Customer;
-import com.accounts.helpers.CustomerAccountServiceHelper;
+import com.accounts.helpers.CustomerAccountServiceHelperImpl;
 import com.accounts.mapper.AccountsMapper;
 import com.accounts.mapper.CustomerMapper;
 import com.accounts.repository.AccountsRepository;
@@ -21,7 +21,7 @@ public class AccountsServiceImpl implements IAccountsService {
 
     private final AccountsRepository accountsRepository;
     private final CustomerRepository customerRepository;
-    private final CustomerAccountServiceHelper helper;
+    private final CustomerAccountServiceHelperImpl helper;
 
     @Override
     public void createAccount(PostNewCustomerRequest postNewCustomerRequest) {

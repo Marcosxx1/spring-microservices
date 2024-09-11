@@ -84,7 +84,6 @@ public interface AccountsController {
                 description = "HTTP STATUS Internal Server Error",
                 content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
-
     @GetMapping("/build-info") // Using @Value
     ResponseEntity<String> getBuildInfo();
 
