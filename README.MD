@@ -1,4 +1,45 @@
-# PROVISORY README
+## Table of Contents
+
+* ### [How to Run Locally](#how-to-run-locally)
+* ### [Prerequisites](#prerequisites)
+* ### [Build All Services](#build-all-services)
+* ### [Build and Run Containers with Docker Compose](#build-and-run-containers-with-docker-compose)
+  - [Add to `pom.xml`](#add-this-to-the-pomxml-for-dockerization)
+* ### [Study Notes](#study-notes)
+* ### [Steps to Run the Application](#steps-to-run-the-application)
+  - [Delete Target Directory](#delete-the-contents-of-the-target-directory)
+  - [Generate the JAR File](#generate-the-jar-file-using-maven)
+  - [Run the Application with Java](#alternatively-run-the-application-directly-with-java)
+* ### [Docker Instructions](#docker-instructions)
+  - [Build the Docker Image](#build-the-docker-image)
+  - [List Docker Images and Running Containers](#list-docker-images-or-running-containers)
+  - [Run the Docker Container](#run-the-docker-container)
+* ### [Stop and Remove Docker Containers](#stop-and-remove-docker-containers)
+  - [Stop the Container](#stop-the-container)
+  - [Remove the Container](#remove-the-container)
+* ### [Building Docker Images with Spring Boot Maven Plugin](#building-docker-images-with-spring-boot-maven-plugin)
+  - [Key Elements](#key-elements)
+  - [Command to Build the Image](#command-to-build-the-image)
+* ### [Google Jib](#google-jib)
+* ### [Pushing images to Docker Hub](#pushing-images-to-docker-hub)
+* ### [Using docker-compose file](#using-docker-compose-file)
+* ### [Useful Docker Compose Commands](#useful-docker-compose-commands)
+  - [Start services in the background (detached mode)](#start-services-in-the-background-detached-mode)
+  - [Stop all running services](#stop-all-running-services-)
+  - [Rebuild the services](#rebuild-the-services-useful-when-dockerfile-or-dependencies-change-)
+   - [View logs for a specific service](#view-logs-from-running-services-)
+  - [Scale a service](#scale-a-service-to-a-specific-number-of-instances-)
+  - [Stop services without removing containers](#stop-services-without-removing-containers-)
+  - [Remove stopped containers](#remove-stopped-containers)
+  - [Execute a command inside a running service container](#execute-a-command-inside-a-running-service-container-)
+  - [List containers associated with the compose project](#list-containers-associated-with-the-compose-project-)
+  - [Pull the latest images for all services](#pull-the-latest-images-for-all-services-)
+  - [Force recreation of containers](#force-recreation-of-containers-even-if-there-are-no-changes-)
+  - [Start specific services](#start-specific-services)
+  - [Remove containers, networks, and volumes](#remove-containers-networks-and-volumes-created-by-docker-compose-up-)
+  - [Start interactive shell inside a container](#start-interactive-shell-inside-a-container-)
+* ### [Useful Docker Compose Commands](#useful-docker-compose-commands)
+* ### [Implementing profiles with Intellij](#implementing-profiles-with-intellij![img.png](img.png))
 
 
 ## How to run locally
@@ -9,7 +50,7 @@
 * Docker: Ensure that Docker is installed for containerization.
 * Docker Compose: Ensure that Docker Compose is installed for managing multi-container Docker applications.
 
-### 1. Build All Services
+### Build All Services
 To build all Java services and create Docker images, run the `build-all-services.sh` script. This script will format the
 code using Spotless and package the services into JAR files.
 
@@ -17,7 +58,7 @@ code using Spotless and package the services into JAR files.
 ./build-all-services.sh
 ```
 
-### 2. Build and Run Containers with Docker Compose
+### Build and Run Containers with Docker Compose
 After building the services, you can use Docker Compose to build and run the containers. Docker Compose will manage the
 multi-container setup and networking.
 ### Add this to the `pom.xml` for Dockerization:
@@ -26,7 +67,7 @@ docker-compose up --build
 ```
 
 
-# Study notes
+### Study notes
 ```xml
 
 <packaging>jar</packaging> <!-- DOCKERIZATION -->
@@ -34,7 +75,7 @@ docker-compose up --build
 
 ### Steps to Run the Application
 
-* Delete the contents of the target directory:
+### Delete the contents of the target directory:
   ```bash
   rm -rf target/* 
   ```
@@ -216,83 +257,129 @@ networks:
 ```
 
 ## Useful docker compose commands
-- **Start services in the background (detached mode):
+### Start services in the background (detached mode):
   ```bash
   docker-compose up -d 
   ```
 - 
-- **Stop all running services:**
+### Stop all running services: 
   ```bash
   docker-compose down
   ```
--**Rebuild the services (useful when Dockerfile or dependencies change):**
+### Rebuild the services (useful when Dockerfile or dependencies change): 
 ```bash
 docker-compose up --build
 ```
 
--**View logs from running services:**
+### View logs from running services: 
 
 ```bash
 docker-compose logs
 ```
 
-- **docker-compose logs <service_name>**
+### docker-compose logs <service_name> 
 ```bash
 docker-compose logs <service_name>
 
  ```
 
-- **Scale a service to a specific number of instances:**
+### Scale a service to a specific number of instances: 
 ```bash
 docker-compose up --scale <service_name>=<number>
  ```
 
-- **Stop services without removing containers:**
+### Stop services without removing containers: 
 ```bash
 docker-compose stop
  ```
 
-- **Remove stopped containers:**
+### Remove stopped containers:
 ```bash
 docker-compose rm
  ```
 
-- **Execute a command inside a running service container:**
+### Execute a command inside a running service container: 
 ```bash
 docker-compose exec <service_name> <command>
  ```
 
-- **List containers associated with the compose project:**
+### List containers associated with the compose project: 
 ```bash
 docker-compose ps
  ```
 
-- **pull the latest images for all services:**
+### pull the latest images for all services: 
 ```bash
 docker-compose pull
  ```
 
-- **Force recreation of containers (even if there are no changes):**
+### Force recreation of containers (even if there are no changes): 
 ```bash
 docker-compose up -d --force-recreate
  ```
 
-- **Start specific services:**
+### Start specific services:
 ```bash
 docker-compose up -d <service_name>
  ```
 
-- **Remove containers, networks, and volumes created by docker-compose up:**
+### Remove containers, networks, and volumes created by docker-compose up: 
 ```bash
 docker-compose down --volumes
  ```
 
-- **Start interactive shell inside a container:**
+### Start interactive shell inside a container: 
 ```bash
 docker-compose run <service_name> /bin/sh
  ```
+## Implementing profiles with Intellij
+1. Create the applications.yml
 
+![file-tree.png](accounts%2Fsrc%2Fmain%2Fresources%2Fexample-images%2Ffile-tree.png)
 
-- ****
-```bash
+2. Add profiles to POM
+   -
+```xml
+<!--you can copy here-->
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>default</spring.profiles.active>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>qa</id>
+			<properties>
+				<spring.profiles.active>qa</spring.profiles.active>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
  ```
+
+3. Add this do the principal application.yml
+   -
+```yaml
+spring:
+  profiles:
+    active: @spring.profiles.active@
+  config:
+  import:
+    - "application_qa.yml" # these are the names of the application_X.yml that we've created
+    - "application_prod.yml"
+```
+ 
+4. Now we can select the profile
+   - Always reload the project after changing a profile
+![maven-profiles.png](accounts%2Fsrc%2Fmain%2Fresources%2Fexample-images%2Fmaven-profiles.png)
