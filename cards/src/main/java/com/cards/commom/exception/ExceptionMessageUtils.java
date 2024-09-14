@@ -24,16 +24,18 @@ public class ExceptionMessageUtils {
         ExceptionMessageUtils.staticMessageSourceAccessor = this.messageSourceAccessor;
     }
 
-    public static CardAlreadyExistsException cardAlreadyExistsException() {
-        return new CardAlreadyExistsException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
+    public static CardAlreadyExistsException cardAlreadyExistsException(String mobilePhone) {
+
+        return new CardAlreadyExistsException(
+                staticMessageSourceAccessor.getMessage(CARD_ALREADY_EXISTS_TITLE),
+                staticMessageSourceAccessor.getMessage(CARD_ALREADY_EXISTS_DETAIL, new Object[] {mobilePhone}));
     }
 
-    public static ResourceNotFoundException resourceNotFoundException(
-            String entityName, String fieldName, String fieldValue) {
+    public static ResourceNotFoundException resourceNotFoundException(String typeOfResource, String identifier) {
+        String message = String.format("%s not found for the given data: %s", typeOfResource, identifier);
 
-        String message = staticMessageSourceAccessor.getMessage(
-                RESOURCE_NOT_FOUND_WITH_DATA, new Object[] {entityName, fieldName, fieldValue});
-
-        return new ResourceNotFoundException(message);
+        return new ResourceNotFoundException(
+                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_TITLE),
+                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_DETAIL, new Object[] {message}));
     }
 }

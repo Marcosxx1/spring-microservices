@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice // if any exception happen, it will be caught here
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -33,30 +33,30 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<com.cards.commom.exception.ErrorResponse> handleResourceNotFoundException(
+    public ResponseEntity<ErrorResponseCustom> handleResourceNotFoundException(
             ResourceNotFoundException ex, WebRequest webRequest) {
 
-        ErrorResponse errorResponseDto =
-                new ErrorResponse(webRequest.getDescription(false), HttpStatus.NOT_FOUND, ex.getMessage());
+        ErrorResponseCustom errorResponseDto =
+                new ErrorResponseCustom(webRequest.getDescription(false), ex.getMessage(), HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CardAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleCardAlreadyExistsException(
+    public ResponseEntity<ErrorResponseCustom> handleCardAlreadyExistsException(
             CardAlreadyExistsException ex, WebRequest webRequest) {
 
-        ErrorResponse errorResponseDto =
-                new ErrorResponse(webRequest.getDescription(false), HttpStatus.BAD_REQUEST, ex.getMessage()); // line 50
+        ErrorResponseCustom errorResponseDto =
+                new ErrorResponseCustom(webRequest.getDescription(false), ex.getMessage(), HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalEcxeption(Exception ex, WebRequest webRequest) {
+    public ResponseEntity<ErrorResponseCustom> handleGlobalException(Exception ex, WebRequest webRequest) {
 
-        ErrorResponse errorResponseDto =
-                new ErrorResponse(webRequest.getDescription(false), HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        ErrorResponseCustom errorResponseDto = new ErrorResponseCustom(
+                webRequest.getDescription(false), ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
         return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
