@@ -4,6 +4,8 @@ import com.cards.constants.CardsConstants;
 import com.cards.domain.dto.CardContactInfo;
 import com.cards.domain.dto.CardsDto;
 import com.cards.domain.dto.Response;
+import com.cards.domain.entity.Card;
+import com.cards.mapper.CardsMapper;
 import com.cards.service.CardService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -44,8 +46,8 @@ public class CardsControllerImpl implements CardsController {
 
     @Override
     public ResponseEntity<CardsDto> fetchCardDetails(String mobileNumber) {
-        CardsDto cardsDto = cardService.fetchCard(mobileNumber);
-        return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
+        Card cards = cardService.fetchCard(mobileNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(CardsMapper.mapToCardsDto(cards));
     }
 
     @Override
