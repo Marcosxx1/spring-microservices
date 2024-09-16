@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class ExceptionMessageUtils {
 
@@ -24,8 +26,11 @@ public class ExceptionMessageUtils {
         ExceptionMessageUtils.staticMessageSourceAccessor = this.messageSourceAccessor;
     }
 
-    public static LoanAlreadyExistsException loanAlreadyExistsException() {
-        return new LoanAlreadyExistsException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
+    public static LoanAlreadyExistsException loanAlreadyExistsException(String mobilePhone) {
+        return new LoanAlreadyExistsException(
+                staticMessageSourceAccessor.getMessage(LOAN_ALREADY_EXISTS_TITLE),
+                staticMessageSourceAccessor.getMessage(LOAN_ALREADY_EXISTS_DETAIL, new Object[] {mobilePhone}),
+                 LocalDateTime.now());
     }
 
     public static IllegalArgumentException resourceNotFoundException(

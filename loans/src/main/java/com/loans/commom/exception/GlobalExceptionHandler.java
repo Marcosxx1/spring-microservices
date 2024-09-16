@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -34,11 +35,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
+    public ResponseEntity<ErrorResponseCustom> handleResourceNotFoundException(
             ResourceNotFoundException ex, WebRequest webRequest) {
 
-        ErrorResponse errorResponseDto = new ErrorResponse(
-                webRequest.getDescription(false), HttpStatus.NOT_FOUND, ex.getMessage(), LocalDateTime.now());
+        ErrorResponseCustom errorResponseDto = new ErrorResponseCustom(
+                webRequest.getDescription(false), ex.getMessage(), HttpStatus.NOT_FOUND, LocalDateTime.now());
 
         return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }

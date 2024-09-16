@@ -20,11 +20,10 @@ public class LoansServiceImpl implements LoansService {
 
     @Override
     public void createLoan(String mobileNumber) {
-        boolean loanExists = loansRepository.findByMobileNumber(mobileNumber).isPresent();
 
-        if (loanExists) {
-            throw ExceptionMessageUtils.resourceAlreadyExistsException();
-        }
+       loansRepository.findByMobileNumber(mobileNumber).ifPresent(c -> {
+            throw ExceptionMessageUtils.loanAlreadyExistsException(mobileNumber);
+        });
 
         loansRepository.save(loansUtils.returnNewLoan(mobileNumber, LoansConstants.HOME_LOAN));
     }
