@@ -20,4 +20,7 @@ public class LoansConstants {
     public static final String MESSAGE_417_DELETE = "operation.delete.failed";
 
     public static final String RESOURCE_ALREADY_EXISTS = "resource.already.exists";
+
+    public static final String LOAN_ALREADY_EXISTS_TITLE = "loan.already.exists-title";
+    public static final String LOAN_ALREADY_EXISTS_DETAIL = "loan.already.exists-detail";
 }
