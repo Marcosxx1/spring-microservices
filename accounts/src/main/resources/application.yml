@@ -1,6 +1,8 @@
 server:
     port: 8080
 spring:
+    application:
+      name: "accounts"
     datasource:
         url: jdbc:h2:mem:testdb
         driverClassName: org.h2.Driver
@@ -18,17 +20,4 @@ spring:
         active: @spring.profiles.active@
     config:
         import:
-            - "application_qa.yml"
-            - "application_prod.yml"
-
-build:
-    version: "3.0"
-
-accounts:
-    message: "Microservice for Accounts. Environment: DEFAULT"
-    contactDetails:
-        name: "Marcosxx1"
-        email: "marcosxx1.ma@gmail.com"
-    onCallSuport:
-        - (XX) XXX-XXX1
-        - (XX) XXX-XXX2
+            - "optional:configserver:http://localhost:8071"
