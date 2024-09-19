@@ -1,7 +1,9 @@
-package com.accounts.commom.exception;
+package com.accounts.commom.exception.handler;
 
 import static com.accounts.constants.AccountConstants.*;
 
+import com.accounts.commom.exception.CustomerAlreadyExistsException;
+import com.accounts.commom.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;

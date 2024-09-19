@@ -1,6 +1,6 @@
 package com.accounts.helpers;
 
-import com.accounts.commom.exception.ExceptionMessageUtils;
+import com.accounts.commom.exception.handler.ExceptionMessageUtils;
 import com.accounts.constants.AccountConstants;
 import com.accounts.domain.dto.AccountsDto;
 import com.accounts.domain.dto.CustomerResponse;
