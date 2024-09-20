@@ -1,13 +1,13 @@
-package com.loans.commom.exception;
+package com.loans.commom.exception.handler;
 
 import static com.loans.constants.LoansConstants.*;
 
+import com.loans.commom.exception.LoanAlreadyExistsException;
+import com.loans.commom.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 public class ExceptionMessageUtils {
@@ -27,22 +27,17 @@ public class ExceptionMessageUtils {
     }
 
     public static LoanAlreadyExistsException loanAlreadyExistsException(String mobilePhone) {
+
         return new LoanAlreadyExistsException(
                 staticMessageSourceAccessor.getMessage(LOAN_ALREADY_EXISTS_TITLE),
-                staticMessageSourceAccessor.getMessage(LOAN_ALREADY_EXISTS_DETAIL, new Object[] {mobilePhone}),
-                 LocalDateTime.now());
+                staticMessageSourceAccessor.getMessage(LOAN_ALREADY_EXISTS_DETAIL, new Object[] {mobilePhone}));
     }
 
-    public static IllegalArgumentException resourceNotFoundException(
-            String entityName, String fieldName, String fieldValue) {
+    public static ResourceNotFoundException resourceNotFoundException(String typeOfResource, String identifier) {
+        String message = String.format("%s not found for the given data: %s", typeOfResource, identifier);
 
-        String message = staticMessageSourceAccessor.getMessage(
-                RESOURCE_NOT_FOUND_WITH_DATA, new Object[] {entityName, fieldName, fieldValue});
-
-        return new IllegalArgumentException(message);
-    }
-
-    public static IllegalArgumentException resourceAlreadyExistsException() {
-        return new IllegalArgumentException(staticMessageSourceAccessor.getMessage(RESOURCE_ALREADY_EXISTS));
+        return new ResourceNotFoundException(
+                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_TITLE),
+                staticMessageSourceAccessor.getMessage(RESOURCE_NOT_FOUND_DETAIL, new Object[] {message}));
     }
 }

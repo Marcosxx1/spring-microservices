@@ -1,12 +1,12 @@
 package com.loans.commom.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.time.LocalDateTime;
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class LoanAlreadyExistsException extends ApiException {
 
- public class LoanAlreadyExistsException extends ErrorResponseCustom {
-
-    public LoanAlreadyExistsException(String title, String detail, LocalDateTime errorTime) {
-        super(title, detail,HttpStatus.CONFLICT, errorTime );
+    public LoanAlreadyExistsException(String title, String detail) {
+        super(title, detail, HttpStatus.CONFLICT);
     }
 }

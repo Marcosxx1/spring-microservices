@@ -23,4 +23,7 @@ public class LoansConstants {
 
     public static final String LOAN_ALREADY_EXISTS_TITLE = "loan.already.exists-title";
     public static final String LOAN_ALREADY_EXISTS_DETAIL = "loan.already.exists-detail";
+
+    public static final String RESOURCE_NOT_FOUND_TITLE = "resource.not.found-title";
+    public static final String RESOURCE_NOT_FOUND_DETAIL = "resource.not.found-detail";
 }

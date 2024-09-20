@@ -1,13 +1,12 @@
 package com.loans.service;
 
-import com.loans.commom.exception.ExceptionMessageUtils;
+import com.loans.commom.exception.handler.ExceptionMessageUtils;
 import com.loans.constants.LoansConstants;
 import com.loans.domain.dto.LoansDto;
 import com.loans.domain.entity.Loans;
 import com.loans.mapper.LoansMapper;
 import com.loans.repository.LoansRepository;
 import com.loans.utils.LoansUtils;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class LoansServiceImpl implements LoansService {
     @Override
     public void createLoan(String mobileNumber) {
 
-       loansRepository.findByMobileNumber(mobileNumber).ifPresent(c -> {
+        loansRepository.findByMobileNumber(mobileNumber).ifPresent(c -> {
             throw ExceptionMessageUtils.loanAlreadyExistsException(mobileNumber);
         });
 
@@ -30,19 +29,18 @@ public class LoansServiceImpl implements LoansService {
 
     @Override
     public LoansDto fetchLoan(String mobileNumber) {
-        Loans loans =
-                findOrThrow(loansRepository.findByMobileNumber(mobileNumber), "Loan", "mobileNumber", mobileNumber);
+        Loans loan = loansRepository
+                .findByMobileNumber(mobileNumber)
+                .orElseThrow(() -> ExceptionMessageUtils.resourceNotFoundException("LOAN", mobileNumber));
 
-        return LoansMapper.mapToLoansDto(loans);
+        return LoansMapper.mapToLoansDto(loan);
     }
 
     @Override
     public boolean updateLoan(LoansDto loansDto) {
-        Loans loanFound = findOrThrow(
-                loansRepository.findByMobileNumber(loansDto.getMobileNumber()),
-                "Loan",
-                "mobileNumber",
-                loansDto.getMobileNumber());
+        Loans loanFound = loansRepository
+                .findByMobileNumber(loansDto.getMobileNumber())
+                .orElseThrow(() -> ExceptionMessageUtils.resourceNotFoundException("LOAN", loansDto.getMobileNumber()));
 
         var loanToUpdate = LoansMapper.mapToLoans(loansDto, loanFound);
         Loans updatedLoan = loansRepository.save(loanToUpdate);
@@ -52,14 +50,11 @@ public class LoansServiceImpl implements LoansService {
 
     @Override
     public boolean deleteLoan(String mobileNumber) {
-        var loans = findOrThrow(loansRepository.findByMobileNumber(mobileNumber), "Loan", "mobileNumber", mobileNumber);
+        var loans = loansRepository
+                .findByMobileNumber(mobileNumber)
+                .orElseThrow(() -> ExceptionMessageUtils.resourceNotFoundException("LOAN", mobileNumber));
         loansRepository.deleteById(loans.getLoanId());
 
         return loansRepository.findById(loans.getLoanId()).isEmpty();
-    }
-
-    private <T> T findOrThrow(Optional<T> optional, String entityName, String fieldName, String fieldValue) {
-        return optional.orElseThrow(
-                () -> ExceptionMessageUtils.resourceNotFoundException(entityName, fieldName, fieldValue));
     }
 }

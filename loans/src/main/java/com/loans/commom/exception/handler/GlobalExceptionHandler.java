@@ -1,10 +1,12 @@
-package com.loans.commom.exception;
+package com.loans.commom.exception.handler;
 
-import java.time.LocalDateTime;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.loans.commom.exception.LoanAlreadyExistsException;
+import com.loans.commom.exception.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice // if any exception happen, it will be caught here
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -35,34 +37,34 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponseCustom> handleResourceNotFoundException(
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
             ResourceNotFoundException ex, WebRequest webRequest) {
 
-        ErrorResponseCustom errorResponseDto = new ErrorResponseCustom(
-                webRequest.getDescription(false), ex.getMessage(), HttpStatus.NOT_FOUND, LocalDateTime.now());
+        ErrorResponse errorResponseDto =
+                new ErrorResponse(webRequest.getDescription(false), ex.getTitle(), ex.getDetail());
 
         return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(LoanAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleLoanAlreadyExistsException(
+    public ResponseEntity<ErrorResponse> handleCustomerAlreadyExistsException(
             LoanAlreadyExistsException ex, WebRequest webRequest) {
 
-        ErrorResponse errorResponseDto = new ErrorResponse(
-                webRequest.getDescription(false), HttpStatus.BAD_REQUEST, ex.getMessage(), LocalDateTime.now());
+        ErrorResponse errorResponseDto =
+                new ErrorResponse(webRequest.getDescription(false), ex.getTitle(), ex.getDetail());
 
         return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalEcxeption(Exception ex, WebRequest webRequest) {
+    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest webRequest) {
 
-        ErrorResponse errorResponseDto = new ErrorResponse(
-                webRequest.getDescription(false),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                ex.getMessage(),
-                LocalDateTime.now());
+        String path = webRequest.getDescription(false);
+        String title = "Internal Server Error";
+        String detail = ex.getMessage();
 
-        return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponseDto = new ErrorResponse(path, title, detail);
+
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
