@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import com.cards.commom.exception.CardAlreadyExistsException;
-import com.cards.commom.exception.ExceptionMessageUtils;
+import com.cards.commom.exception.handler.ExceptionMessageUtils;
 import com.cards.constants.CardsConstants;
 import com.cards.domain.entity.Card;
 import com.cards.repository.CardRepository;

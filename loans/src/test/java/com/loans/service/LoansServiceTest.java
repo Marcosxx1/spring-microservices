@@ -3,16 +3,20 @@ package com.loans.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.loans.commom.exception.ExceptionMessageUtils;
+import com.loans.commom.exception.LoanAlreadyExistsException;
+import com.loans.commom.exception.ResourceNotFoundException;
+import com.loans.commom.exception.handler.ExceptionMessageUtils;
 import com.loans.constants.LoansConstants;
 import com.loans.domain.dto.LoansDto;
 import com.loans.domain.entity.Loans;
+import com.loans.mapper.LoansMapper;
 import com.loans.repository.LoansRepository;
 import com.loans.utils.LoansUtils;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,18 +48,14 @@ public class LoansServiceTest {
     @Test
     public void testCreateLoan_whenLoanAlreadyExists_thenReturnResourceAlreadyExistsException() {
         String mobileNumber = "321654987654";
-        String errorMessage = "Loan already exists";
 
         when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.of(new Loans()));
-        when(messageSourceAccessor.getMessage(LoansConstants.RESOURCE_ALREADY_EXISTS))
-                .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+         assertThrows(LoanAlreadyExistsException.class, () -> {
             loansService.createLoan(mobileNumber);
         });
 
-        assert (thrown.getMessage()).equals(errorMessage);
-    }
+     }
 
     @Test
     public void testCreateLoan_whenUserDoesNotExists_thenSaveNewLoan() {
@@ -63,24 +63,6 @@ public class LoansServiceTest {
         when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.empty());
         loansService.createLoan(mobileNumber);
         verify(loansRepository, times(1)).save(any(Loans.class));
-    }
-
-    @Test
-    public void testFetchLoan_whenThereIsNoLoan_thenThrowResourceNotFoundException() {
-        String mobileNumber = "321654987654";
-        String errorMessage = "Loan not found";
-
-        when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.empty());
-        when(messageSourceAccessor.getMessage(
-                        LoansConstants.RESOURCE_NOT_FOUND_WITH_DATA,
-                        new Object[] {"Loan", "mobileNumber", mobileNumber}))
-                .thenReturn(errorMessage);
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            loansService.fetchLoan(mobileNumber);
-        });
-
-        assert (thrown.getMessage()).equals(errorMessage);
     }
 
     @Test
@@ -108,21 +90,12 @@ public class LoansServiceTest {
                 .amountPaid(1000)
                 .outstandingAmount(10000)
                 .build();
-        loansDto.setMobileNumber(mobileNumber);
-
-        String errorMessage = "Loan not found";
 
         when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.empty());
-        when(messageSourceAccessor.getMessage(
-                        LoansConstants.RESOURCE_NOT_FOUND_WITH_DATA,
-                        new Object[] {"Loan", "mobileNumber", mobileNumber}))
-                .thenReturn(errorMessage);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             loansService.updateLoan(loansDto);
         });
-
-        assert (thrown.getMessage()).equals(errorMessage);
     }
 
     @Test
@@ -157,21 +130,13 @@ public class LoansServiceTest {
     @Test
     public void testDeleteLoan_whenLoanDoesNotExist_thenThrowResourceNotFoundException() {
         String mobileNumber = "321654987654";
-        String errorMessage = "Loan not found";
 
         when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.empty());
 
-        when(messageSourceAccessor.getMessage(
-                        LoansConstants.RESOURCE_NOT_FOUND_WITH_DATA,
-                        new Object[] {"Loan", "mobileNumber", mobileNumber}))
-                .thenReturn(errorMessage);
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            loansService.deleteLoan(mobileNumber);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            loansService.fetchLoan(mobileNumber);
         });
-
-        assertEquals(errorMessage, thrown.getMessage());
-    }
+     }
 
     @Test
     public void testDeleteLoan_whenLoanExists_thenDeleteLoan() {
@@ -195,4 +160,37 @@ public class LoansServiceTest {
 
         assertTrue(result);
     }
+    @Test
+    void fetchLoan_whenLoanExists_returnsLoanDto() {
+        String mobileNumber = "1234567890";
+        Loans mockLoan = new Loans();
+        LoansDto mockLoansDto =  LoansDto.builder().build();
+
+        when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.of(mockLoan));
+
+        try (MockedStatic<LoansMapper> mockedStatic = mockStatic(LoansMapper.class)) {
+            mockedStatic.when(() -> LoansMapper.mapToLoansDto(mockLoan)).thenReturn(mockLoansDto);
+
+
+            LoansDto result = loansService.fetchLoan(mobileNumber);
+
+
+            assertNotNull(result);
+            assertEquals(mockLoansDto, result);
+            verify(loansRepository).findByMobileNumber(mobileNumber);
+            mockedStatic.verify(() -> LoansMapper.mapToLoansDto(mockLoan));
+        }
+    }
+
+    @Test
+    public void testRegisterUser_whenLoanNotFound_thenThrowResourceNotFoundException() {
+        String mobileNumber = "1234567890";
+
+        when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            loansService.fetchLoan(mobileNumber);
+        });
+    }
+
 }

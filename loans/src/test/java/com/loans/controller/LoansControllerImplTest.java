@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loans.commom.exception.ExceptionMessageUtils;
+import com.loans.commom.exception.handler.ExceptionMessageUtils;
 import com.loans.domain.dto.LoansDto;
 import com.loans.service.LoansService;
 import org.junit.jupiter.api.BeforeEach;
