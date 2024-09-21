@@ -54,7 +54,6 @@ public class LoansServiceTest {
          assertThrows(LoanAlreadyExistsException.class, () -> {
             loansService.createLoan(mobileNumber);
         });
-
      }
 
     @Test

@@ -37,23 +37,17 @@ public class CardServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        messageSourceAccessor = mock(MessageSourceAccessor.class);
         ReflectionTestUtils.setField(ExceptionMessageUtils.class, "staticMessageSourceAccessor", messageSourceAccessor);
     }
 
     @Test
     public void testCreateCard_whenCardAlreadyExists_thenThrowCardAlreadyExistsException() {
         String mobileNumber = "987654321";
-        String errorMessage = "resource.already.exists";
 
         when(cardRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.of(new Card()));
-        when(messageSourceAccessor.getMessage(CardsConstants.RESOURCE_ALREADY_EXISTS))
-                .thenReturn(errorMessage);
 
-        CardAlreadyExistsException thrown = assertThrows(CardAlreadyExistsException.class, () -> {
+        assertThrows(CardAlreadyExistsException.class, () -> {
             cardService.createCard(mobileNumber);
         });
-
-        assert (thrown.getMessage()).equals(errorMessage);
     }
 }

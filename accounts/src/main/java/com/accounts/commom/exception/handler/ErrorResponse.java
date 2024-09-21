@@ -1,8 +1,9 @@
 package com.accounts.commom.exception.handler;
 
-import static com.accounts.commom.exception.CommonErrorTypes.ERROR;
 
 import lombok.*;
+
+import static com.accounts.commom.exception.handler.CommonErrorTypes.ERROR;
 
 @NoArgsConstructor
 @AllArgsConstructor

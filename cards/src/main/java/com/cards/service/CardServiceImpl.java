@@ -19,8 +19,9 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void createCard(String mobileNumber) {
-        cardRepository.findByMobileNumber(mobileNumber)
-                .orElseThrow(() -> ExceptionMessageUtils.cardAlreadyExistsException(mobileNumber));
+        cardRepository.findByMobileNumber(mobileNumber).ifPresent(c -> {
+            throw ExceptionMessageUtils.cardAlreadyExistsException(mobileNumber);
+        });
         cardRepository.save(cardUtils.returnNewCard(mobileNumber));
     }
 
