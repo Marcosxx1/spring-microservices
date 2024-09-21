@@ -46,7 +46,7 @@ public class LoansServiceTest {
     }
 
     @Test
-    public void testCreateLoan_whenLoanAlreadyExists_thenReturnResourceAlreadyExistsException() {
+    public void testCreateLoan_whenLoanAlreadyExists_thenReturnLoanAlreadyExistsException() {
         String mobileNumber = "321654987654";
 
         when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.of(new Loans()));

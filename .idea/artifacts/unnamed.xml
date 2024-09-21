@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact name="unnamed">
+    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
+    <root id="root">
+      <element id="dir-copy" path="$USER_HOME$/OneDrive/Área de Trabalho/trabalho2" />
+    </root>
+  </artifact>
+</component>
