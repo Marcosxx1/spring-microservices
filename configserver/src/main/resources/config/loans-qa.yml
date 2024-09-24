@@ -6,8 +6,8 @@ spring:
 build:
     version: "3.0"
 
-cards:
-    message: "Microservice for Cards. Environment: QA"
+loans:
+    message: "Microservice for Loans. Environment: QA"
     contactDetails:
         name: "Marcosxx1"
         email: "marcosxx1.ma@gmail.com"

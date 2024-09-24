@@ -116,7 +116,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 	<profiles>
 		<profile>
 			<id>default</id>
@@ -142,5 +141,4 @@
 			</properties>
 		</profile>
 	</profiles>
-
 </project>

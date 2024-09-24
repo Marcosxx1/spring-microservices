@@ -1,8 +1,8 @@
 build:
     version: "3.0"
 
-cards:
-    message: "Microservice for Cards. Environment: DEFAULT"
+loans:
+    message: "Microservice for Loans. Environment: DEFAULT"
     contactDetails:
         name: "Marcosxx1"
         email: "marcosxx1.ma@gmail.com"
