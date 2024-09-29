@@ -5,11 +5,19 @@ spring:
     application:
       name: "Config Server"
     profiles:
-        active: native
+      active: git # Now that we're using our repository to hold the configs
+  # active: native Should be used only when we are using 'classpath' and file system localtions
     cloud:
       config:
         server:
-          native: # The bellow path is from my machine, and it is the same as configpath,
+          git:
+            uri: "https://github.com/Marcosxx1/config-server-files.git"
+            default-label: main # What is the default branch our config server must connect
+            timeout: 5
+            clone-on-start: true # Clone the repo in the local system when true
+            force-pull: true # Override local changes on start/restart from the repo. Getting always new
+
+              #native: # The bellow path is from my machine, and it is the same as configpath,
                   # but just to learning purposes, we could've place then anywhere else
-            search-locations: file:///C://Users//marco//IdeaProjects//spring-microservices//configserver//src//main//resources//config
+          #search-locations: file:///C://Users//marco//IdeaProjects//spring-microservices//configserver//src//main//resources//config
           #search-locations: classpath:/config # < classpath
