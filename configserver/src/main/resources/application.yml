@@ -21,3 +21,5 @@ spring:
                   # but just to learning purposes, we could've place then anywhere else
           #search-locations: file:///C://Users//marco//IdeaProjects//spring-microservices//configserver//src//main//resources//config
           #search-locations: classpath:/config # < classpath
+encrypt:
+  key: "Q7z!m3D@r6B&xP1j" # learning purposes. No actual credentials were used in this project
