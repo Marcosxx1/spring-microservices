@@ -9,5 +9,7 @@ spring:
     cloud:
       config:
         server:
-          native:
-              search-locations: classpath:/config # < classpath
+          native: # The bellow path is from my machine, and it is the same as configpath,
+                  # but just to learning purposes, we could've place then anywhere else
+            search-locations: file:///C://Users//marco//IdeaProjects//spring-microservices//configserver//src//main//resources//config
+          #search-locations: classpath:/config # < classpath
