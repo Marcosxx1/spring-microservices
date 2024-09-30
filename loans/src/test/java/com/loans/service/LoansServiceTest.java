@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import com.loans.commom.exception.LoanAlreadyExistsException;
 import com.loans.commom.exception.ResourceNotFoundException;
 import com.loans.commom.exception.handler.ExceptionMessageUtils;
-import com.loans.constants.LoansConstants;
 import com.loans.domain.dto.LoansDto;
 import com.loans.domain.entity.Loans;
 import com.loans.mapper.LoansMapper;
@@ -51,10 +50,10 @@ public class LoansServiceTest {
 
         when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.of(new Loans()));
 
-         assertThrows(LoanAlreadyExistsException.class, () -> {
+        assertThrows(LoanAlreadyExistsException.class, () -> {
             loansService.createLoan(mobileNumber);
         });
-     }
+    }
 
     @Test
     public void testCreateLoan_whenUserDoesNotExists_thenSaveNewLoan() {
@@ -135,7 +134,7 @@ public class LoansServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> {
             loansService.fetchLoan(mobileNumber);
         });
-     }
+    }
 
     @Test
     public void testDeleteLoan_whenLoanExists_thenDeleteLoan() {
@@ -159,20 +158,19 @@ public class LoansServiceTest {
 
         assertTrue(result);
     }
+
     @Test
     void fetchLoan_whenLoanExists_returnsLoanDto() {
         String mobileNumber = "1234567890";
         Loans mockLoan = new Loans();
-        LoansDto mockLoansDto =  LoansDto.builder().build();
+        LoansDto mockLoansDto = LoansDto.builder().build();
 
         when(loansRepository.findByMobileNumber(mobileNumber)).thenReturn(Optional.of(mockLoan));
 
         try (MockedStatic<LoansMapper> mockedStatic = mockStatic(LoansMapper.class)) {
             mockedStatic.when(() -> LoansMapper.mapToLoansDto(mockLoan)).thenReturn(mockLoansDto);
 
-
             LoansDto result = loansService.fetchLoan(mobileNumber);
-
 
             assertNotNull(result);
             assertEquals(mockLoansDto, result);
@@ -191,5 +189,4 @@ public class LoansServiceTest {
             loansService.fetchLoan(mobileNumber);
         });
     }
-
 }

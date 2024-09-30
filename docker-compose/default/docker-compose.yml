@@ -3,8 +3,8 @@ version: '3.8'
 services:
     accounts:
         build:
-            context: ./accounts  # Points to the accounts directory
-            dockerfile: Dockerfile.accounts  # Dockerfile within the accounts directory
+            context: ../../accounts  # Points to the accounts directory
+            dockerfile: ../../accounts/Dockerfile.accounts  # Dockerfile within the accounts directory
         image: marcossata/accounts:s4
         container_name: accounts-ms
         ports:
@@ -18,8 +18,8 @@ services:
 
     loans:
         build:
-            context: ./loans  # Points to the loans directory
-            dockerfile: Dockerfile.loans  # Dockerfile within the loans directory
+            context: ../../loans  # Points to the loans directory
+            dockerfile: ../../loans/Dockerfile.loans  # Dockerfile within the loans directory
         image: marcossata/loans:s4
         container_name: loans-ms
         ports:
@@ -33,8 +33,8 @@ services:
 
     cards:
         build:
-            context: ./cards  # Points to the cards directory
-            dockerfile: Dockerfile.cards  # Dockerfile within the cards directory
+            context: ../../cards  # Points to the cards directory
+            dockerfile: ../../cards/Dockerfile.cards  # Dockerfile within the cards directory
         image: marcossata/cards:s4
         container_name: cards-ms
         ports:

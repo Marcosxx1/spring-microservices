@@ -1,13 +1,13 @@
 package com.cards.commom.exception.handler;
 
+import static com.cards.constants.CardsConstants.*;
+
 import com.cards.commom.exception.CardAlreadyExistsException;
 import com.cards.commom.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
-
-import static com.cards.constants.CardsConstants.*;
 
 @Component
 public class ExceptionMessageUtils {

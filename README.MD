@@ -40,6 +40,7 @@
   - [Start interactive shell inside a container](#start-interactive-shell-inside-a-container-)
 * ### [Useful Docker Compose Commands](#useful-docker-compose-commands)
 * ### [Implementing profiles with Intellij](#implementing-profiles-with-intellij![img.png](img.png))
+* ### [Refresh configurations at runtime using /refresh path](#refresh-configurations-at-runtime-using-refresh-path)
 
 
 ## How to run locally
@@ -383,3 +384,16 @@ spring:
 4. Now we can select the profile
    - Always reload the project after changing a profile
 ![maven-profiles.png](accounts%2Fsrc%2Fmain%2Fresources%2Fexample-images%2Fmaven-profiles.png)
+
+### Refresh configurations at runtime using refresh path
+1 - To add refresh configuration at runtime using /refresh path we'll need to add **Actuator** to our project.
+2 - Enable /refresh API: The spring Boot Actuator library provides a configuration endpoint called **"/actuator/refresh"**
+that can trigger a refresh event. By default, this endpoint is not exposed, so we need to explicitly enable it in 
+application.yml file using the below config:
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+```

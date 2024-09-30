@@ -1,12 +1,10 @@
 package com.loans.commom.exception.handler;
 
-
+import com.loans.commom.exception.LoanAlreadyExistsException;
+import com.loans.commom.exception.ResourceNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.loans.commom.exception.LoanAlreadyExistsException;
-import com.loans.commom.exception.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

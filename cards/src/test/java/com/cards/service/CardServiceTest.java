@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import com.cards.commom.exception.CardAlreadyExistsException;
 import com.cards.commom.exception.handler.ExceptionMessageUtils;
-import com.cards.constants.CardsConstants;
 import com.cards.domain.entity.Card;
 import com.cards.repository.CardRepository;
 import com.cards.utils.CardUtils;

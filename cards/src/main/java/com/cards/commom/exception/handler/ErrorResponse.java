@@ -1,9 +1,8 @@
 package com.cards.commom.exception.handler;
 
-import lombok.*;
-
 import static com.cards.commom.exception.CommonErrorTypes.ERROR;
 
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,12 +1,11 @@
 package com.cards.service;
 
- import com.cards.commom.exception.handler.ExceptionMessageUtils;
- import com.cards.domain.dto.CardsDto;
+import com.cards.commom.exception.handler.ExceptionMessageUtils;
+import com.cards.domain.dto.CardsDto;
 import com.cards.domain.entity.Card;
 import com.cards.mapper.CardsMapper;
 import com.cards.repository.CardRepository;
 import com.cards.utils.CardUtils;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,8 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Card fetchCard(String mobileNumber) {
-        return cardRepository.findByMobileNumber(mobileNumber)
+        return cardRepository
+                .findByMobileNumber(mobileNumber)
                 .orElseThrow(() -> ExceptionMessageUtils.resourceNotFoundException("Card", mobileNumber));
     }
 

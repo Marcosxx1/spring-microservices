@@ -21,3 +21,9 @@ spring:
     config:
         import:
             - "optional:configserver:http://localhost:8071"
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*" # Enable and expose all management endpoints suport by spring Actuator
