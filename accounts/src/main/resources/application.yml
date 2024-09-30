@@ -21,9 +21,14 @@ spring:
     config:
         import:
             - "optional:configserver:http://localhost:8071"
+    rabbitmq:
+        host: "localhost"
+        port: 5672
+        username: "guest"
+        password: "guest"
 
 management:
     endpoints:
         web:
             exposure:
-                include: "*" # Enable and expose all management endpoints suport by spring Actuator
+                include: "*" # Enable and expose all management endpoints suport by spring Actuator. We can choose which endpoint to expose

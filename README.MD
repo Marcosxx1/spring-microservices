@@ -46,7 +46,7 @@
 ## How to run locally
 
 ### Prerequisites
-* Java Development Kit (JDK) 17: Ensure that you have JDK 17 installed on your machine.
+* Java Development Kit (JDK) 23: Ensure that you have JDK 23 installed on your machine.
 * Maven: Ensure that Apache Maven is installed for building the Java services.
 * Docker: Ensure that Docker is installed for containerization.
 * Docker Compose: Ensure that Docker Compose is installed for managing multi-container Docker applications.
@@ -397,3 +397,28 @@ management:
       exposure:
         include: refresh
 ```
+
+### Using RabbitMQ as a message broker to share the config from Config Server
+1 - Update services and **Config Server**with this dependency:
+```xml
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+		</dependency>
+```
+Add this configuration to the services applcation.yml:
+```yaml
+spring:
+    rabbitmq:
+        host: "localhost"
+        port: 5672
+        username: "guest"
+        password: "guest"
+```
+Install RabbitMq
+```dockerfile
+# latest RabbitMQ 4.0.x
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
+```
+
+With the image and RabbitMQ server running, run Config Server
