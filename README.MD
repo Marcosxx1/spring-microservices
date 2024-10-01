@@ -41,6 +41,7 @@
 * ### [Useful Docker Compose Commands](#useful-docker-compose-commands)
 * ### [Implementing profiles with Intellij](#implementing-profiles-with-intellij![img.png](img.png))
 * ### [Refresh configurations at runtime using /refresh path](#refresh-configurations-at-runtime-using-refresh-path)
+* ### [Using RabbitMQ as a message broker to share the config from Config Server](#using-rabbitmq-as-a-message-broker-to-share-the-config-from-config-server)
 
 
 ## How to run locally
@@ -399,6 +400,8 @@ management:
 ```
 
 ### Using RabbitMQ as a message broker to share the config from Config Server
+Spring Cloud Bus and RabbitMQ
+
 1 - Update services and **Config Server**with this dependency:
 ```xml
 		<dependency>
@@ -415,10 +418,76 @@ spring:
         username: "guest"
         password: "guest"
 ```
-Install RabbitMq
+Install RabbitMq image
 ```dockerfile
 # latest RabbitMQ 4.0.x
 docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
 ```
 
 With the image and RabbitMQ server running, run Config Server
+
+
+## How Dynamic Configuration Updates Work with Spring Cloud Config Server and RabbitMQ
+
+In this setup, you are using a **Spring Cloud Config Server** to centralize the configuration of different microservices. The configurations are stored in a Git repository, and **RabbitMQ** is used for communication between services via **Spring Cloud Bus**, which synchronizes configuration changes across services.
+
+### 1. Config Server and Git Repository
+- The **Config Server** is a centralized service that holds configurations for other microservices.
+- These configurations are stored in a Git repository, as defined in our config server `application.yml`:
+    ```yaml
+    spring:
+      cloud:
+        config:
+          server:
+            git:
+              uri: "https://github.com/Marcosxx1/config-server-files.git"
+              default-label: main
+    ```
+  - The Config Server reads the configurations from Git and serves them to the other microservices as needed.
+
+## 2. Spring Cloud Bus and RabbitMQ
+- **Spring Cloud Bus** is used to synchronize configuration changes across all microservices. It uses **RabbitMQ** to send event messages about changes.
+- We've configured **RabbitMQ** in our config server `application.yml` with the following settings:
+    ```yaml
+    rabbitmq:
+      host: "localhost"
+      port: 5672
+      username: "guest"
+      password: "guest"
+    ```
+  - **RabbitMQ** acts as a messaging system that allows services to listen for events from **Spring Cloud Bus**.
+
+## 3. How Configuration Updates Work
+The dynamic configuration update process happens as follows:
+
+### a) Initial Service Configuration
+- When a microservice starts, it connects to the **Config Server** to fetch its configuration.
+- This allows for centralized and standardized configuration across different services.
+
+### b) Configuration Changes
+- When we make a change in the Git repository (where the configurations are stored), those changes are not automatically applied to the microservices. We need to notify the services about the change.
+
+### c) Using the `/actuator/refresh` Endpoint
+- To apply the changes, we make an HTTP request to the `/actuator/refresh` endpoint of one of the microservices:
+    ```bash
+    http://localhost:8090/actuator/refresh
+    ```
+  - This endpoint triggers **Spring Cloud Bus**, which sends a message to RabbitMQ informing all the microservices that the configuration has been updated.
+
+### d) Propagation of Changes via RabbitMQ
+- **RabbitMQ** propagates the configuration change event to all microservices connected to Spring Cloud Bus.
+- Each microservice that receives the event checks the **Config Server** for the updated configurations. This happens dynamically without restarting the services.
+
+### e) Dynamic Reloading
+- Microservices listening to the **Spring Cloud Bus** event use the **@RefreshScope** feature in Spring to reload configurations. Any class or component annotated with `@RefreshScope` will be automatically reloaded with the new configurations after the refresh event.
+
+## Summary of the Flow:
+1. The Config Server loads configurations from a centralized Git repository.
+2. These configurations are provided to microservices at startup.
+3. When you change the configurations in Git and call the `/actuator/refresh` endpoint, Spring Cloud Bus sends a message via RabbitMQ.
+4. The microservices listen to the message, check the Config Server, and reload the configurations dynamically.
+
+## Benefits:
+- **Centralization:** All configurations are centralized in the **Config Server** and can be changed without manually modifying each service.
+- **Automatic Synchronization:** **Spring Cloud Bus** with RabbitMQ ensures that all services receive updated configurations efficiently and without restarting.
+- **Scalability:** This works well in production environments where you might have multiple instances of microservices and want to ensure all receive updates simultaneously.
