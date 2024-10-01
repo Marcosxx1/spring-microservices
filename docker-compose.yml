@@ -1,11 +1,28 @@
 version: '3.8'
 
 services:
+    configserver:
+        build:
+            context: ../../configserver  # Points to the accounts directory
+            dockerfile: ../../configserver/Dockerfile.config-server  # Dockerfile within the accounts directory
+        image: marcossata/config-server:s6
+
+        container_name: config-server-ms
+        ports:
+            - "8071:8071"
+        deploy:
+            resources:
+                limits:
+                    memory: 700m
+        networks:
+            - bankApplication
+
     accounts:
         build:
             context: ../../accounts  # Points to the accounts directory
             dockerfile: ../../accounts/Dockerfile.accounts  # Dockerfile within the accounts directory
-        image: marcossata/accounts:s4
+        image: marcossata/accounts:s6
+
         container_name: accounts-ms
         ports:
             - "8080:8080"
@@ -15,12 +32,18 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "accounts"
+
 
     loans:
         build:
             context: ../../loans  # Points to the loans directory
             dockerfile: ../../loans/Dockerfile.loans  # Dockerfile within the loans directory
-        image: marcossata/loans:s4
+        image: marcossata/loans:s6
+
         container_name: loans-ms
         ports:
             - "8090:8090"
@@ -30,12 +53,17 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "loans"
 
     cards:
         build:
             context: ../../cards  # Points to the cards directory
             dockerfile: ../../cards/Dockerfile.cards  # Dockerfile within the cards directory
-        image: marcossata/cards:s4
+        image: marcossata/cards:s6
+
         container_name: cards-ms
         ports:
             - "9000:9000"
@@ -45,6 +73,10 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "cards"
 
 networks:
     bankApplication:
