@@ -504,3 +504,8 @@ The dynamic configuration update process happens as follows:
 - **Centralization:** All configurations are centralized in the **Config Server** and can be changed without manually modifying each service.
 - **Automatic Synchronization:** **Spring Cloud Bus** with RabbitMQ ensures that all services receive updated configurations efficiently and without restarting.
 - **Scalability:** This works well in production environments where you might have multiple instances of microservices and want to ensure all receive updates simultaneously.
+
+
+hookdeck listen 8071 source --cli-path /monitor
+
+hookdeck listen  8071 Source
