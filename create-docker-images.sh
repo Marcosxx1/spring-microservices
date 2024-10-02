@@ -5,10 +5,10 @@ ROOT_DIR="$(dirname "$(realpath "$0")")"
 
 # List of service directories and their respective Docker tags
 declare -A SERVICES
-SERVICES=(
-    ["accounts"]="accounts:s4"
-    ["loans"]="loans:s4"
-    ["cards"]="cards:s4"
+SERVICES=( # We can change the tag for each service
+    ["accounts"]="accounts:s6"
+    ["loans"]="loans:s6"
+    ["cards"]="cards:s6"
     ["configserver"]="config-server:s6"
 )
 
