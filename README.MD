@@ -52,35 +52,31 @@
 * Docker: Ensure that Docker is installed for containerization.
 * Docker Compose: Ensure that Docker Compose is installed for managing multi-container Docker applications.
 
+### Steps to Run the Application
+
 ### Build All Services
-To build all Java services and create Docker images, run the `build-all-services.sh` script. This script will format the
+First we need to apply spotless (for good measure) and compile all services: 
+To compile all Java services and create Docker images, run the `build-all-services.sh` script. This script will format the
 code using Spotless and package the services into JAR files.
 
 ```bash
 ./build-all-services.sh
 ```
 
+After all services are built, we can run the containers
+
 ### Build and Run Containers with Docker Compose
-After building the services, you can use Docker Compose to build and run the containers. Docker Compose will manage the
+After building the services, we can use Docker Compose to build and run the containers. Docker Compose will manage the
 multi-container setup and networking.
-### Add this to the `pom.xml` for Dockerization:
-```bash
-docker-compose up --build
+
+Navigate to this path: 
+```shell
+cd docker-compose/default
 ```
-
-
-### Study notes
-```xml
-
-<packaging>jar</packaging> <!-- DOCKERIZATION -->
-``` 
-
-### Steps to Run the Application
-
-### Delete the contents of the target directory:
-  ```bash
-  rm -rf target/* 
-  ```
+And trun this file:
+```shell
+docker-compose.yml
+```
 
 ### Generate the JAR file using Maven:
 
@@ -95,8 +91,10 @@ docker-compose up --build
   ```
 
 ## Docker Instructions
+Rodando os serviços em containers
 
 ### Build the Docker image:
+
 
   ```bash
  primeiro: docker build . -t marcossata/accounts:s4  
