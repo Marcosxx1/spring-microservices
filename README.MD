@@ -73,16 +73,13 @@ create-docker-images.sh
 ```
 
 After using **`./build-all-services.sh`** and **`create-docker-images.sh`** all services should've been compilated
-and its images created, now we can usem them
-
-
-# Bellow are study annotations
+and its images created
 
 ### Build and Run Containers with Docker Compose
 After building the services, we can use Docker Compose to build and run the containers. Docker Compose will manage the
 multi-container setup and networking.
 
-Navigate to this path: 
+Navigate to this path:
 ```shell
 cd docker-compose/default
 ```
@@ -90,6 +87,11 @@ And trun this file:
 ```shell
 docker-compose.yml
 ```
+
+After building, creating the images and running, all services should be up and running. 
+
+# Bellow are study annotations
+
 
 ### Generate the JAR file using Maven:
 
