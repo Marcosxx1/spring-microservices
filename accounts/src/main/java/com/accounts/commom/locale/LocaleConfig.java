@@ -1,8 +1,6 @@
 package com.accounts.commom.locale;
 
 import java.util.Locale;
-
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +36,7 @@ public class LocaleConfig {
 
     @Bean
     @Primary
-    //@Qualifier("localeValidator")
+    // @Qualifier("localeValidator")
     public LocalValidatorFactoryBean getValidator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());

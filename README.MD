@@ -52,35 +52,50 @@
 * Docker: Ensure that Docker is installed for containerization.
 * Docker Compose: Ensure that Docker Compose is installed for managing multi-container Docker applications.
 
-### Build All Services
-To build all Java services and create Docker images, run the `build-all-services.sh` script. This script will format the
-code using Spotless and package the services into JAR files.
+### Steps to Run the Application
 
-```bash
+### Build All Services
+First, we need to apply Spotless (for code formatting) and compile all services. To compile all Java services, run the 
+`build-all-services.sh` script. This script will format the code using Spotless and package the services into JAR files.
+
+```shell
 ./build-all-services.sh
 ```
 
-### Build and Run Containers with Docker Compose
-After building the services, you can use Docker Compose to build and run the containers. Docker Compose will manage the
-multi-container setup and networking.
-### Add this to the `pom.xml` for Dockerization:
-```bash
-docker-compose up --build
+### Create Docker Images
+After all services are built (i.e., JAR files created), we can create the Docker container images by running the
+`create-docker-images.sh` script:
+
+
+
+```shell
+create-docker-images.sh
 ```
 
+After using **`./build-all-services.sh`** and **`create-docker-images.sh`** all services should've been compilated
+and its images created
 
-### Study notes
-```xml
+### Build and Run Containers with Docker Compose
+After building the services, we can use Docker Compose to build and run the containers. Docker Compose will manage the
+multi-container setup and networking.
 
-<packaging>jar</packaging> <!-- DOCKERIZATION -->
-``` 
+Navigate to this path:
+```shell
+cd docker-compose/default
+```
+And trun this file:
+```shell
+docker-compose.yml
+```
+Run this command in a separate terminal:
+```shell
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
+```
 
-### Steps to Run the Application
+After building, creating the images and running, all services should be up and running. 
 
-### Delete the contents of the target directory:
-  ```bash
-  rm -rf target/* 
-  ```
+# Bellow are study annotations
+
 
 ### Generate the JAR file using Maven:
 
@@ -95,8 +110,10 @@ docker-compose up --build
   ```
 
 ## Docker Instructions
+Rodando os serviços em containers
 
 ### Build the Docker image:
+
 
   ```bash
  primeiro: docker build . -t marcossata/accounts:s4  

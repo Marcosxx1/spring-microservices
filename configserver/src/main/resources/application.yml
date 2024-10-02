@@ -16,10 +16,29 @@ spring:
             timeout: 5
             clone-on-start: true # Clone the repo in the local system when true
             force-pull: true # Override local changes on start/restart from the repo. Getting always new
-
+    rabbitmq:
+      host: "localhost"
+      port: 5672
+      username: "guest"
+      password: "guest"
               #native: # The bellow path is from my machine, and it is the same as configpath,
                   # but just to learning purposes, we could've place then anywhere else
           #search-locations: file:///C://Users//marco//IdeaProjects//spring-microservices//configserver//src//main//resources//config
           #search-locations: classpath:/config # < classpath
 encrypt:
   key: "Q7z!m3D@r6B&xP1j" # learning purposes. No actual credentials were used in this project
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true

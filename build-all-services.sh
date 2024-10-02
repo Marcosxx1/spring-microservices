@@ -3,17 +3,22 @@
 # Navigate to the project root directory
 ROOT_DIR="$(dirname "$(realpath "$0")")"
 
-# List of service directories
-SERVICES=("accounts" "loans" "cards")
+SERVICES=("accounts" "loans" "cards" "configserver")
 
 # Function to format and build each service
 build_service() {
     local service=$1
     echo "Formatting and building $service..."
-    cd "$ROOT_DIR/$service"
-    mvn spotless:apply
-    mvn clean package
-    cd "$ROOT_DIR"
+
+    # Navigate to the service directory
+    cd "$ROOT_DIR/$service" || { echo "Failed to enter $service directory"; exit 1; }
+
+    # Format and build
+    mvn spotless:apply || { echo "Formatting failed for $service"; exit 1; }
+    mvn clean package || { echo "Build failed for $service"; exit 1; }
+
+    # Return to the root directory
+    cd "$ROOT_DIR" || { echo "Failed to return to root directory"; exit 1; }
 }
 
 # Build each service

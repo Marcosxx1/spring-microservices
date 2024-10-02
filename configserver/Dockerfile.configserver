@@ -1,0 +1,8 @@
+# Use a multi-stage build to reduce final image size
+FROM openjdk:17-jdk-slim AS build
+WORKDIR /app
+COPY target/configserver-0.0.1-SNAPSHOT.jar /app
+
+EXPOSE 8071
+
+ENTRYPOINT ["java", "-jar", "/app/configserver-0.0.1-SNAPSHOT.jar"]

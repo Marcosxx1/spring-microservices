@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+    configserver:
+        build:
+            context: ../../configserver
+            dockerfile: Dockerfile.config-server
+        image: marcossata/config-server:s6
+
+        container_name: config-server-ms
+        ports:
+            - "8071:8071"
+        deploy:
+            resources:
+                limits:
+                    memory: 700m
+        networks:
+            - bankApplication
+
     accounts:
         build:
             context: ../../accounts  # Points to the accounts directory
@@ -15,6 +31,10 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "accounts"
 
     loans:
         build:
@@ -30,6 +50,10 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "loans"
 
     cards:
         build:
@@ -45,6 +69,10 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "cards"
 
 networks:
     bankApplication:
