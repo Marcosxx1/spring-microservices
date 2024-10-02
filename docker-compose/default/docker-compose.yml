@@ -31,6 +31,10 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "accounts"
 
     loans:
         build:
@@ -46,6 +50,10 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "loans"
 
     cards:
         build:
@@ -61,6 +69,10 @@ services:
                     memory: 700m
         networks:
             - bankApplication
+        environment:
+            SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+            SPRING_PROFILES_ACTIVE: default
+            SPRING_APPLICATION_NAME: "cards"
 
 networks:
     bankApplication:
