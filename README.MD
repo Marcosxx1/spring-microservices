@@ -55,15 +55,28 @@
 ### Steps to Run the Application
 
 ### Build All Services
-First we need to apply spotless (for good measure) and compile all services: 
-To compile all Java services and create Docker images, run the `build-all-services.sh` script. This script will format the
-code using Spotless and package the services into JAR files.
+First, we need to apply Spotless (for code formatting) and compile all services. To compile all Java services, run the 
+`build-all-services.sh` script. This script will format the code using Spotless and package the services into JAR files.
 
-```bash
+```shell
 ./build-all-services.sh
 ```
 
-After all services are built, we can run the containers
+### Create Docker Images
+After all services are built (i.e., JAR files created), we can create the Docker container images by running the
+`create-docker-images.sh` script:
+
+
+
+```shell
+create-docker-images.sh
+```
+
+After using **`./build-all-services.sh`** and **`create-docker-images.sh`** all services should've been compilated
+and its images created, now we can usem them
+
+
+# Bellow are study annotations
 
 ### Build and Run Containers with Docker Compose
 After building the services, we can use Docker Compose to build and run the containers. Docker Compose will manage the
