@@ -42,6 +42,11 @@
 * ### [Implementing profiles with Intellij](#implementing-profiles-with-intellij![img.png](img.png))
 * ### [Refresh configurations at runtime using /refresh path](#refresh-configurations-at-runtime-using-refresh-path)
 * ### [Using RabbitMQ as a message broker to share the config from Config Server](#using-rabbitmq-as-a-message-broker-to-share-the-config-from-config-server)
+* ### [SPRINT_X_X Nomenclature](#sprint_x_x-nomenclature)
+* ### [Common Examples](#common-examples)
+* ### [Why All Services Use the Same Port](#why-all-services-use-the-same-port)
+
+
 
 
 ## How to run locally
@@ -505,6 +510,66 @@ The dynamic configuration update process happens as follows:
 - **Automatic Synchronization:** **Spring Cloud Bus** with RabbitMQ ensures that all services receive updated configurations efficiently and without restarting.
 - **Scalability:** This works well in production environments where you might have multiple instances of microservices and want to ensure all receive updates simultaneously.
 
+## Explanation of SPRINT_X_X Nomenclature and Service Connections
+
+### SPRINT_X_X Nomenclature
+
+In Spring-based microservices (When using docker-compose.yml), environment variables or configuration properties are used
+to define how the application behaves in different environments (e.g., development, staging, production). The SPRINT_X_X
+naming convention typically refers to various Spring-related configuration parameters.
+
+```yaml
+    accountsdb:
+        container_name: accountsdb
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: accountsdb
+        extends:
+            file: common-config.yml
+            service: microservice-db-config
+
+    accounts:
+      image: "marcossata/accounts:USING_MYSQL"# TODO - ALWAYS VERIFY THE TAG
+      container_name: accounts-ms
+      ports:
+        - "8080:8080"
+      depends_on:
+        configserver:
+          condition: service_healthy
+        accountsdb:
+          condition: service_healthy
+      environment:
+        SPRING_APPLICATION_NAME: "accounts"
+        SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb" # Since we're dealing with containers, we indicate what container we created and its container port.
+      extends:
+        file: common-config.yml
+        service: microservice-configserver-config
+```
+
+
+### Common Examples:
+- **SPRING_APPLICATION_NAME**: Defines the name of the application (e.g., "accounts", "cards").
+- **SPRING_PROFILES_ACTIVE**: Specifies the active profile (e.g., "default", "dev", "prod") used to load specific configuration files or behaviors for the environment.
+- **SPRING_DATASOURCE_URL**: Sets the JDBC URL to configure the database connection string for the service.
+- **SPRING_CONFIG_IMPORT**: Imports external configuration sources like a Config Server.
+
+This pattern helps to keep services consistent, as different parts of the system can be identified and connected using standardized environment variables.
+
+## 2. Why All Services Use the Same Port
+
+In the Docker network, services can communicate with each other via a virtual network. Here’s why microservices often use the same port for database connections:
+
+### Example:
+```
+jdbc:mysql://accountsdb:3306/accountsdb
+```
+
+- **accountsdb**: This is the hostname for the `accountsdb` service as seen inside the Docker network. Each service in the same Docker network can reference other containers by name.
+- **3306**: This is the default MySQL port that MySQL services listen on internally. Even though you may map different external ports on the host machine (like `3306`, `3307`, `3308`), the containers within the network communicate over the MySQL default port `3306`.
+- **accountsdb** (again): This part indicates the database name.
+
+In the internal Docker network, each microservice connects to its respective database container (e.g., `accountsdb`, `cardsdb`, `loansdb`) but uses the same default MySQL port `3306`. The port mapping only differs when exposing services to the host machine, not inside the Docker network itself.
 
 hookdeck listen 8071 source --cli-path /monitor
 
