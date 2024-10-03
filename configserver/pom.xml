@@ -42,14 +42,14 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency> UNCOMENT THIS TO USE RABBITMQ - 2
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-monitor</artifactId>
-		</dependency>
+		</dependency>-->
 
 
 		<dependency>

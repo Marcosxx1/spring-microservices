@@ -21,11 +21,11 @@ spring:
     config:
         import:
             - "optional:configserver:http://localhost:8071"
-    rabbitmq:
-        host: "localhost"
-        port: 5672
-        username: "guest"
-        password: "guest"
+    # rabbitmq: UNCOMENT THIS TO USE RABBITMQ - 8
+    #     host: "localhost"
+    #     port: 5672
+    #     username: "guest"
+    #     password: "guest"
 
 management:
     endpoints:

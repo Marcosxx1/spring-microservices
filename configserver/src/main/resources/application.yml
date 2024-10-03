@@ -16,11 +16,11 @@ spring:
             timeout: 5
             clone-on-start: true # Clone the repo in the local system when true
             force-pull: true # Override local changes on start/restart from the repo. Getting always new
-    rabbitmq:
-      host: "localhost"
-      port: 5672
-      username: "guest"
-      password: "guest"
+    # rabbitmq: UNCOMENT THIS TO USE RABBITMQ -1
+    #   host: "localhost"
+    #   port: 5672
+    #   username: "guest"
+    #   password: "guest"
               #native: # The bellow path is from my machine, and it is the same as configpath,
                   # but just to learning purposes, we could've place then anywhere else
           #search-locations: file:///C://Users//marco//IdeaProjects//spring-microservices//configserver//src//main//resources//config
