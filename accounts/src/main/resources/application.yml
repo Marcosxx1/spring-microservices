@@ -1,30 +1,46 @@
 server:
     port: 8080
+
 spring:
     application:
         name: "accounts"
     datasource:
-        url: jdbc:mysql://localhost:3306/accountsdb # Temporary, learning purposes, non-critical information
+        url: jdbc:mysql://localhost:3306/accountsdb  # Temporary, learning purposes, non-critical information
         username: root
         password: root
     jpa:
         show-sql: true
     sql:
-      init:
-        mode: always
+        init:
+            mode: always
     profiles:
         active: @spring.profiles.active@
     config:
         import:
             - "optional:configserver:http://localhost:8071"
     # rabbitmq: UNCOMENT THIS TO USE RABBITMQ - 4
-    #     host: "localhost"
-    #     port: 5672
-    #     username: "guest"
-    #     password: "guest"
+    #   host: "localhost"
+    #   port: 5672
+    #   username: "guest"
+    #   password: "guest"
 
 management:
     endpoints:
         web:
             exposure:
-                include: "*" # Enable and expose all management endpoints suport by spring Actuator. We can choose which endpoint to expose
+                include: "*"  # Enable and expose all management endpoints supported by Spring Actuator. We can choose which endpoint to expose.
+
+---
+spring:
+    config:
+        activate:
+            on-profile: test  # Activate the test profile
+    datasource:
+        url: jdbc:h2:mem:testdb  # Use an in-memory H2 database for tests
+        driver-class-name: org.h2.Driver
+        username: sa
+        password:
+    jpa:
+        hibernate:
+            ddl-auto: update  # Automatically create/update the schema
+        show-sql: true  # Show SQL queries in logs

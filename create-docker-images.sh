@@ -6,10 +6,10 @@ ROOT_DIR="$(dirname "$(realpath "$0")")"
 # List of service directories and their respective Docker tags
 declare -A SERVICES
 SERVICES=( # We can change the tag for each service
-    ["accounts"]="accounts:s6"
-    ["loans"]="loans:s6"
-    ["cards"]="cards:s6"
-    ["configserver"]="config-server:s6"
+    ["accounts"]="accounts:USING_MYSQL"
+    ["loans"]="loans:USING_MYSQL"
+    ["cards"]="cards:USING_MYSQL"
+    ["configserver"]="config-server:USING_MYSQL"
 )
 
 # Function to build Docker images for each service

@@ -5,8 +5,8 @@ DOCKER_HUB_ACCOUNT="marcossata" # Replace with your actual Docker Hub account na
 
 # Define the images and tags to be pushed
 IMAGES=("accounts" "cards" "loans" "config-server")
-TAG="s6"
-CONFIG_SERVER_TAG="s6"
+TAG="USING_MYSQL" ## TODO - WHEN PUSHING THE IMAGE.  CHANGE THIS TO THE TAG WE ARE USING IN SERVICES=( ) OF create-docker-images.sh
+CONFIG_SERVER_TAG="USING_MYSQL" ## TODO - WHEN PUSHING THE IMAGE.  CHANGE THIS TO THE TAG WE ARE USING IN SERVICES=( ) OF create-docker-images.sh
 
 # Login to Docker Hub (if not logged in)
 docker login || { echo "Docker login failed"; exit 1; }

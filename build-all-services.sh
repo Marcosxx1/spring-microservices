@@ -3,7 +3,7 @@
 # Navigate to the project root directory
 ROOT_DIR="$(dirname "$(realpath "$0")")"
 
-SERVICES=("accounts" "loans" "cards" "configserver")
+SERVICES=("configserver" "accounts" "loans" "cards" )
 
 # Function to format and build each service
 build_service() {
