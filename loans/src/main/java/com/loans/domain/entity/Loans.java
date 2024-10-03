@@ -10,6 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@Table(name = "loans")
 public class Loans {
 
     @Id

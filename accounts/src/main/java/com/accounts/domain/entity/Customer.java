@@ -8,6 +8,8 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Table(name = "customer")
 public class Customer extends BaseEntity {
 
     @Id

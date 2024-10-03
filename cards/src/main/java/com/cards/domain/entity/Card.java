@@ -14,8 +14,7 @@ import lombok.*;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cards_id_gen")
-    @SequenceGenerator(name = "cards_id_gen", sequenceName = "cards_card_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "card_id", nullable = false)
     private Long id;
 
